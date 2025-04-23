@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - Bandipur House</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/hero-header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/content-pages.css">
+</head>
+<body>
+    <!-- Header Component -->
+    <div id="header"></div>
+
+    <main>
+        <div class="page-header">
+            <h1>Upcoming Events</h1>
+            <p>Join us for these exciting events organized by Bandipur House. Connect with fellow students, learn new skills, and build lasting memories.</p>
+        </div>
+
+        <div class="content-grid" id="event-grid">
+            <!-- Event cards will be loaded here by JavaScript -->
+            <p>Loading events...</p> <!-- Loading indicator -->
+        </div>
+    </main>
+
+    <!-- Footer Component -->
+    <div id="footer"></div>
+    <div class="nav-overlay"></div>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Load components (Keep your existing function)
+        const loadHtmlComponent = (url, elementId) => {
+            fetch(url)
+                .then(response => response.ok ? response.text() : Promise.reject(`Component not found: ${url}`))
+                .then(data => {
+                    const targetElement = document.getElementById(elementId);
+                    if (targetElement) {
+                        targetElement.innerHTML = data;
+                        // Execute scripts from components (Keep existing logic)
+                        const scripts = targetElement.querySelectorAll('script');
+                        scripts.forEach(script => {
+                            const newScript = document.createElement('script');
+                            if (script.src) {
+                                let scriptSrc = script.getAttribute('src');
+                                if (scriptSrc.startsWith('../')) {
+                                    scriptSrc = scriptSrc.substring(3);
+                                }
+                                newScript.src = scriptSrc;
+                                newScript.async = false;
+                                document.body.appendChild(newScript);
+                                if (elementId === 'header' && scriptSrc.includes('header.js')) {
+                                    newScript.onload = () => document.dispatchEvent(new CustomEvent('headerLoaded'));
+                                }
+                            } else {
+                                newScript.textContent = script.textContent;
+                                document.body.appendChild(newScript);
+                            }
+                            script.remove();
+                        });
+                    }
+                })
+                .catch(error => console.error(`Error loading ${url}:`, error));
+        };
+
+        loadHtmlComponent('components/header.html', 'header');
+        loadHtmlComponent('components/footer.html', 'footer');
+
+        // Fetch and display events
+        document.addEventListener('DOMContentLoaded', () => {
+            const eventGrid = document.getElementById('event-grid');
+            if (!eventGrid) {
+                console.error("Event grid container not found!");
+                return;
+            }
+
+            // Adjust the path if your site is in a subfolder on GitHub Pages
+            const dataUrl = '_data/events.json';
+
+            fetch(dataUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status} fetching ${dataUrl}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    eventGrid.innerHTML = ''; // Clear loading message
+                    // Check if the data is directly an array or nested under 'event_items'
+                    const events = Array.isArray(data) ? data : (data && data.event_items ? data.event_items : []);
+
+                    if (events.length > 0) {
+                        // Sort events by date, newest first (optional)
+                        events.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                        events.forEach(event => {
+                            const card = document.createElement('div');
+                            card.classList.add('content-card');
+
+                            // Format the date
+                            let formattedDate = 'Date not set';
+                            try {
+                                const eventDate = new Date(event.date);
+                                // Add timezone offset to prevent date shifting issues
+                                const userTimezoneOffset = eventDate.getTimezoneOffset() * 60000;
+                                const correctedDate = new Date(eventDate.getTime() + userTimezoneOffset);
+                                formattedDate = correctedDate.toLocaleDateString('en-US', {
+                                    year: 'numeric', month: 'long', day: 'numeric'
+                                });
+                            } catch (e) {
+                                console.warn("Could not parse date:", event.date);
+                            }
+
+
+                            card.innerHTML = `
+                                <p class="meta">${formattedDate}</p>
+                                <h3>${event.title || 'No Title'}</h3>
+                                <p>${event.description || 'No Description'}</p>
+                            `;
+                            eventGrid.appendChild(card);
+                        });
+                    } else {
+                        eventGrid.innerHTML = '<p>No upcoming events found.</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching or processing events:', error);
+                    eventGrid.innerHTML = '<p>Could not load events. Please check the console for errors.</p>';
+                });
+        });
+    </script>
+</body>
+</html>

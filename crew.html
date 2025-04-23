@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crew - Bandipur House</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/hero-header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/content-pages.css">
+</head>
+<body>
+    <!-- Header Component -->
+    <div id="header"></div>
+
+    <main>
+        <div class="page-header">
+            <h1>Meet Our Crew</h1>
+            <p>The dedicated individuals who make our community vibrant, welcoming, and impactful. Each person brings unique skills and passion to Bandipur House.</p>
+        </div>
+        
+        <div class="content-grid">
+            <div class="content-card">
+                <p class="meta">Leadership</p>
+                <h3>John Doe</h3>
+                <p>As House Manager for over 5 years, John ensures the smooth operation of Bandipur House, coordinating resources and managing facilities for optimal student experience.</p>
+            </div>
+            
+            <div class="content-card">
+                <p class="meta">Events</p>
+                <h3>Jane Smith</h3>
+                <p>Our dedicated Event Coordinator who masterfully plans and executes all house activities, creating memorable experiences for everyone involved.</p>
+            </div>
+            
+            <div class="content-card">
+                <p class="meta">Community</p>
+                <h3>Emily Johnson</h3>
+                <p>As Community Liaison, Emily bridges Bandipur House with local and global partners, fostering meaningful relationships that enhance student opportunities.</p>
+            </div>
+            
+            <div class="content-card">
+                <p class="meta">Technical Support</p>
+                <h3>Alex Rivera</h3>
+                <p>Our technical expert manages digital infrastructure and provides support for tech-related initiatives, ensuring students have access to cutting-edge resources.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Component -->
+    <div id="footer"></div>
+    <div class="nav-overlay"></div>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Load components
+        const loadHtmlComponent = (url, elementId) => {
+            fetch(url)
+                .then(response => response.ok ? response.text() : Promise.reject(`Component not found: ${url}`))
+                .then(data => {
+                    const targetElement = document.getElementById(elementId);
+                    if (targetElement) {
+                        targetElement.innerHTML = data;
+                        
+                        // Execute scripts from components
+                        const scripts = targetElement.querySelectorAll('script');
+                        scripts.forEach(script => {
+                            const newScript = document.createElement('script');
+                            if (script.src) {
+                                let scriptSrc = script.getAttribute('src');
+                                if (scriptSrc.startsWith('../')) {
+                                    scriptSrc = scriptSrc.substring(3);
+                                }
+                                newScript.src = scriptSrc;
+                                newScript.async = false;
+                                document.body.appendChild(newScript);
+                                
+                                if (elementId === 'header' && scriptSrc.includes('header.js')) {
+                                    newScript.onload = () => document.dispatchEvent(new CustomEvent('headerLoaded'));
+                                }
+                            } else {
+                                newScript.textContent = script.textContent;
+                                document.body.appendChild(newScript);
+                            }
+                            script.remove();
+                        });
+                    }
+                })
+                .catch(error => console.error(`Error loading ${url}:`, error));
+        };
+
+        loadHtmlComponent('components/header.html', 'header');
+        loadHtmlComponent('components/footer.html', 'footer');
+    </script>
+</body>
+</html>

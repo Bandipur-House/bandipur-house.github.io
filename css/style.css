@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500&family=Roboto+Serif:wght@400&display=swap');
+
+body, html {
+    overflow-x: hidden; 
+    margin: 0; 
+    padding: 0; 
+    width: 100%; 
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Neue Montreal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
+
+body.nav-open {
+    overflow: hidden !important; 
+    position: fixed !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
+
+.container {
+    max-width: 100%; /* Ensure containers do not exceed viewport width */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    /* padding handled by theme.css */
+    margin: auto;
+    padding-left: 20px; /* Add padding if not in theme.css */
+    padding-right: 20px; /* Add padding if not in theme.css */
+}
+
+h2 {
+    /* color handled by theme.css */
+    /* font-size handled by theme.css */
+    margin-top: 40px; /* Add space above section headings */
+    margin-bottom: 20px;
+}
+
+p {
+    /* line-height handled by theme.css */
+    margin-bottom: 15px; /* Space below paragraphs */
+}
+
+button {
+    /* Styles handled by theme.css */
+}
+
+button:hover {
+    /* Styles handled by theme.css */
+}
+
+main {
+    min-height: calc(100vh - 150px);
+    padding-top: 90px; /* Increase top padding slightly */
+    padding-bottom: 70px; /* Increase bottom padding slightly */
+}
+
+/* Home page specific styling */
+.content-section {
+    margin-bottom: 50px; /* Adjust space */
+    padding: 25px 0; /* Adjust padding */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Lighter, more subtle border */
+}
+
+.content-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0; /* Remove bottom margin for the last section */
+}
+
+.content-section h2 {
+    text-align: center;
+    margin-bottom: 25px; /* Adjust space */
+    color: #F5F5F7; /* Match theme heading color */
+    font-weight: 600;
+    font-size: 1.8em; /* Match theme h2 size */
+    position: relative;
+    padding-bottom: 8px;
+}
+
+/* Optional: Add a subtle underline effect to headings */
+.content-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px; /* Adjust width */
+    height: 1px; /* Thinner line */
+    background-color: #007AFF; /* Apple blue accent */
+}
+
+.about-content {
+    max-width: 720px; /* Adjust width */
+    margin: 0 auto;
+    line-height: 1.6; /* Adjust line height */
+    font-size: 1.0em;
+    color: #C5C5C7; /* Slightly adjusted text color */
+}
+
+.about-content p {
+    margin-bottom: 18px; /* Adjusted paragraph spacing */
+}
+
+/* Basic form styling */
+form {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px; /* Adjust spacing */
+    color: #C5C5C7; /* Match about content color */
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 12px; /* Increase padding */
+    margin-bottom: 18px; /* Increase spacing */
+    background-color: rgba(255, 255, 255, 0.05); /* Lighter input background */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Lighter border */
+    color: #F5F5F7; /* Brighter text */
+    border-radius: 8px; /* More rounded */
+    box-sizing: border-box;
+    font-size: 1em; /* Ensure consistent font size */
+    font-family: inherit; /* Use body font */
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: rgba(0, 122, 255, 0.7); /* Apple blue focus border */
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15); /* Subtle Apple blue glow */
+    background-color: rgba(255, 255, 255, 0.08); /* Slightly lighter on focus */
+}

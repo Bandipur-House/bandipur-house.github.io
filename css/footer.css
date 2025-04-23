@@ -1,0 +1,174 @@
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    padding: 40px 40px 20px 40px;
+    width: 100%;
+    color: #8892B0;
+    margin-top: 60px;
+    font-size: 0.9em;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.footer p {
+    margin: 0 0 10px 0;
+}
+
+.footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+.footer ul li a {
+    color: #8892B0;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer ul li a:hover {
+    color: #007AFF;
+    text-decoration: none;
+}
+
+.circular-text-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin-right: 40px;
+    flex-shrink: 0;
+}
+
+.circular-text-container svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    animation: rotate 20s linear infinite;
+    overflow: visible;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg);}
+    to { transform: rotate(360deg);}
+}
+
+.center-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 45px;
+    height: 45px;
+    z-index: 1;
+}
+
+.center-image::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
+    background-color: #ffffff;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.center-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.footer-content {
+    text-align: right;
+}
+
+.circular-text-container svg text {
+    fill: #8892B0;
+    font-family: 'Neue Montreal', sans-serif;
+    font-size: 8px;
+}
+
+.footer-logo-group {
+    display: flex;
+    align-items: center;
+}
+
+.footer-text-block {
+    margin-left: -30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.circular-text-right {
+    display: block;
+    margin-left: 0;
+    margin-top: 0;
+    font-family: 'Playfair Display', -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Arial, sans-serif;
+    color: #f8f9fd;
+    font-size: 1.5em;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    pointer-events: none;
+    position: relative;
+    line-height: 1;
+    text-align: center;
+}
+
+.circular-text-sub {
+    display: block;
+    margin-left: 0;
+    margin-top: 2px;
+    font-family: 'Poppins', sans-serif;
+    color: #a8b2d1;
+    font-size: 0.9em;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    pointer-events: none;
+    position: relative;
+    text-align: center;
+}
+
+@media (max-width: 900px) {
+    .footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .footer-logo-group {
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .circular-text-container {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    .footer-text-block {
+        margin-left: 0;
+        align-items: center;
+    }
+    .circular-text-right {
+        margin-top: 0;
+        text-align: center;
+    }
+    .circular-text-sub {
+        margin-top: 5px;
+        text-align: center;
+    }
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Bandipur House</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/hero-header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/content-pages.css">
+</head>
+<body>
+    <!-- Header Component -->
+    <div id="header"></div>
+
+    <main>
+        <div class="page-header">
+            <h1>Contact Us</h1>
+            <p>Have questions or want to connect? We'd love to hear from you. Fill out the form below and we'll get back to you as soon as possible.</p>
+        </div>
+        
+        <div class="contact-form">
+            <form action="#" method="post">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="5" class="form-control" required></textarea>
+                </div>
+                
+                <button type="submit" class="btn-submit">Send Message</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer Component -->
+    <div id="footer"></div>
+    <div class="nav-overlay"></div>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Load components
+        const loadHtmlComponent = (url, elementId) => {
+            fetch(url)
+                .then(response => response.ok ? response.text() : Promise.reject(`Component not found: ${url}`))
+                .then(data => {
+                    const targetElement = document.getElementById(elementId);
+                    if (targetElement) {
+                        targetElement.innerHTML = data;
+                        
+                        // Execute scripts from components
+                        const scripts = targetElement.querySelectorAll('script');
+                        scripts.forEach(script => {
+                            const newScript = document.createElement('script');
+                            if (script.src) {
+                                let scriptSrc = script.getAttribute('src');
+                                if (scriptSrc.startsWith('../')) {
+                                    scriptSrc = scriptSrc.substring(3);
+                                }
+                                newScript.src = scriptSrc;
+                                newScript.async = false;
+                                document.body.appendChild(newScript);
+                                
+                                if (elementId === 'header' && scriptSrc.includes('header.js')) {
+                                    newScript.onload = () => document.dispatchEvent(new CustomEvent('headerLoaded'));
+                                }
+                            } else {
+                                newScript.textContent = script.textContent;
+                                document.body.appendChild(newScript);
+                            }
+                            script.remove();
+                        });
+                    }
+                })
+                .catch(error => console.error(`Error loading ${url}:`, error));
+        };
+
+        loadHtmlComponent('components/header.html', 'header');
+        loadHtmlComponent('components/footer.html', 'footer');
+    </script>
+</body>
+</html>

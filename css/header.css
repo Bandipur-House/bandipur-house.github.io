@@ -1,0 +1,315 @@
+/* Styles specific to the new header component */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px !important; /* Increased from 55px */
+    min-height: 60px !important; /* Increased from 55px */
+    max-height: 60px !important; /* Increased from 55px */
+    overflow: visible; /* Allow navigation dropdown to overflow */
+    background-color: transparent; /* Transparent initially */
+    padding: 0 !important; /* Force no padding */
+    margin: 0 !important; /* Force no margin */
+    z-index: 1000;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid transparent; /* Transparent border initially */
+    /* backdrop-filter: blur(5px); Removed initially */
+}
+
+.header.scrolled {
+    height: 55px !important; /* Increased from 50px */
+    min-height: 55px !important; /* Increased from 50px */
+    max-height: 55px !important; /* Increased from 50px */
+    background-color: rgba(10, 25, 47, 0.95); /* Apply background on scroll */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(24, 119, 242, 0.25); /* Apply border on scroll */
+    backdrop-filter: blur(5px); /* Apply blur on scroll */
+}
+
+.header .container {
+    padding: 0 !important;
+    margin: 0 auto !important;
+    height: 100% !important;
+}
+
+.header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100% !important; /* Force to fill header height */
+    padding: 0 15px !important; /* Horizontal padding only */
+    max-width: 1100px;
+    margin: 0 auto !important;
+}
+
+.logo a {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: #fff;
+    text-decoration: none;
+    line-height: 1 !important; /* Adjusted line height */
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Ensure 'Playfair Display' font is loaded via @font-face or a font service */
+.logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px !important; /* Increased from 20px */
+    font-weight: 700;
+    letter-spacing: 0;
+    color: #FFFFFF;
+    line-height: 1 !important; /* Adjusted line height */
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.logo-subtext {
+    font-family: 'Neue Montreal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 9px !important; /* Increased from 8px */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #B0C4DE;
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: 1 !important; /* Adjusted line height */
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    height: 100% !important;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100% !important;
+}
+
+.nav-item {
+    margin: 0 3px !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    height: 100% !important;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0 12px !important; /* Increased from 10px */
+    height: 100% !important;
+    color: #edeeee;
+    text-decoration: none;
+    font-size: 15px !important; /* Increased from 14px */
+    font-weight: 500;
+    letter-spacing: 0;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+    position: relative;
+}
+
+/* Optional Register Button Styling (if used) */
+.register-btn {
+    background-color: transparent;
+    color: #007AFF; /* Apple Blue */
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    border: 1px solid #007AFF; /* Apple Blue */
+    font-size: 14px;
+    margin-left: 10px; /* Space from other nav items */
+}
+
+.register-btn:hover {
+    background-color: rgba(0, 122, 255, 0.1); /* Subtle Apple Blue */
+    color: #007FFF; /* Lighter Apple Blue */
+    border-color: #007FFF; /* Lighter Apple Blue */
+}
+
+.nav-toggle {
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px; /* Smaller toggle */
+    height: 16px; /* Smaller toggle */
+    cursor: pointer;
+    z-index: 1001; /* Ensure it's above overlay */
+    position: relative; /* Needed for z-index */
+}
+
+.nav-toggle span {
+    display: block;
+    height: 2px; /* Thinner lines */
+    width: 100%;
+    background-color: #B0C4DE; /* Match link color */
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Mobile Navigation Styles */
+.mobile-only {
+    display: none;
+}
+
+/* The nav overlay that darkens the screen */
+.nav-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 998;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.nav-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 992px) {
+    .header {
+        padding: 5px 0; /* Reintroduce some padding for mobile layout */
+    }
+
+    .header-wrapper {
+        padding: 0 15px; /* Adjust padding for mobile */
+    }
+
+    .mobile-only {
+        /* display: block; */ /* Only if using mobile-specific items */
+    }
+
+    .nav-toggle {
+        display: flex;
+    }
+
+    .nav-toggle.active span {
+         background-color: #007AFF; /* Apple Blue when active */
+    }
+
+    .nav-toggle.active span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .nav-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .nav-toggle.active span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* Mobile navigation panel */
+    .main-nav {
+        position: fixed;
+        top: 0;
+        right: -100%; /* Start off-screen */
+        width: 80%; /* Adjust width */
+        max-width: 300px; /* Max width */
+        height: 100vh;
+        background-color: #0A192F; /* Solid background */
+        flex-direction: column;
+        align-items: flex-start; /* Align items left */
+        padding: 80px 20px 40px;
+        transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1); /* Smooth ease-out */
+        z-index: 999;
+        overflow-y: auto;
+        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .main-nav.active {
+        right: 0; /* Slide in */
+    }
+
+    .nav-list {
+        flex-direction: column;
+        width: 100%;
+        gap: 5px; /* Space between items */
+    }
+
+    .nav-item {
+        margin: 0; /* Remove horizontal margin */
+        width: 100%;
+        opacity: 0;
+        transform: translateX(15px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .main-nav.active .nav-item {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    /* Staggered animation for menu items */
+    .main-nav.active .nav-item:nth-child(1) { transition-delay: 0.10s; }
+    .main-nav.active .nav-item:nth-child(2) { transition-delay: 0.15s; }
+    .main-nav.active .nav-item:nth-child(3) { transition-delay: 0.20s; }
+    .main-nav.active .nav-item:nth-child(4) { transition-delay: 0.25s; }
+    .main-nav.active .nav-item:nth-child(5) { transition-delay: 0.30s; }
+    .main-nav.active .nav-item:nth-child(6) { transition-delay: 0.35s; } /* If register button is shown */
+
+    .nav-link {
+        padding: 10px 10px; /* Adjusted mobile padding */
+        width: 100%;
+        text-align: left;
+        font-size: 15px; /* Adjusted mobile font size */
+        display: block;
+        border-bottom: 1px solid rgba(176, 196, 222, 0.1); /* Subtle separator */
+        color: #B0C4DE; /* Ensure color reset */
+    }
+
+    .nav-link:after {
+        display: none; /* Hide underline on mobile */
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+        background-color: rgba(0, 122, 255, 0.08); /* Very subtle hover/active */
+        color: #007AFF; /* Apple Blue */
+    }
+
+    /* Register button in mobile menu (if used) */
+    .nav-item .register-btn {
+        display: block; /* Make it full width */
+        width: 100%;
+        text-align: center;
+        margin-top: 20px; /* Space above */
+        padding: 12px;
+        font-size: 15px;
+        margin-left: 0; /* Reset margin */
+    }
+
+    .nav-item.mobile-only {
+         display: block; /* Show if needed */
+         width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-wrapper {
+        padding: 0 8px; /* Further reduced padding */
+    }
+
+    .logo-text {
+        font-size: 22px !important; /* Adjusted mobile size */
+    }
+
+    .logo-subtext {
+        font-size: 8px !important; /* Adjusted mobile size */
+    }
+}

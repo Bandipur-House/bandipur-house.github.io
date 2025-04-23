@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club - Bandipur House</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/hero-header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/content-pages.css">
+</head>
+<body>
+    <!-- Header Component -->
+    <div id="header"></div>
+
+    <main>
+        <div class="page-header">
+            <h1>Bandipur House Club</h1>
+            <p>A vibrant community where students come together to share interests, organize events, and foster friendships.</p>
+        </div>
+        
+        <div class="content-grid">
+            <div class="content-card">
+                <p class="meta">Weekly Event</p>
+                <h3>Game Night</h3>
+                <p>Every Friday at 7 PM, join us for an evening of friendly competition, featuring board games, card games, and digital gaming tournaments.</p>
+            </div>
+            
+            <div class="content-card">
+                <p class="meta">Monthly Event</p>
+                <h3>Book Club Meeting</h3>
+                <p>First Tuesday of every month at 6 PM, we discuss selected readings that expand our horizons and challenge our perspectives.</p>
+            </div>
+            
+            <div class="content-card">
+                <p class="meta">Monthly Event</p>
+                <h3>Movie Marathon</h3>
+                <p>Last Saturday of every month at 5 PM, we explore cinema from around the world, from cult classics to latest releases.</p>
+            </div>
+            
+            <div class="content-card">
+                <p class="meta">How to Join</p>
+                <h3>Become a Member</h3>
+                <p>Reach out through our contact page or simply attend any of our events to get started. All students are welcome to join our inclusive community.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Component -->
+    <div id="footer"></div>
+    <div class="nav-overlay"></div>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Load components
+        const loadHtmlComponent = (url, elementId) => {
+            fetch(url)
+                .then(response => response.ok ? response.text() : Promise.reject(`Component not found: ${url}`))
+                .then(data => {
+                    const targetElement = document.getElementById(elementId);
+                    if (targetElement) {
+                        targetElement.innerHTML = data;
+                        
+                        // Execute scripts from components
+                        const scripts = targetElement.querySelectorAll('script');
+                        scripts.forEach(script => {
+                            const newScript = document.createElement('script');
+                            if (script.src) {
+                                let scriptSrc = script.getAttribute('src');
+                                if (scriptSrc.startsWith('../')) {
+                                    scriptSrc = scriptSrc.substring(3);
+                                }
+                                newScript.src = scriptSrc;
+                                newScript.async = false;
+                                document.body.appendChild(newScript);
+                                
+                                if (elementId === 'header' && scriptSrc.includes('header.js')) {
+                                    newScript.onload = () => document.dispatchEvent(new CustomEvent('headerLoaded'));
+                                }
+                            } else {
+                                newScript.textContent = script.textContent;
+                                document.body.appendChild(newScript);
+                            }
+                            script.remove();
+                        });
+                    }
+                })
+                .catch(error => console.error(`Error loading ${url}:`, error));
+        };
+
+        loadHtmlComponent('components/header.html', 'header');
+        loadHtmlComponent('components/footer.html', 'footer');
+    </script>
+</body>
+</html>

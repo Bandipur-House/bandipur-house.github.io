@@ -1,0 +1,59 @@
+/* Styles specific to the hero section */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    width: 100%; /* Ensure hero section takes full width */
+    max-width: 100%; /* Prevent overflow */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Remove horizontal padding that might cause overflow */
+    margin: 0 auto; /* Center the hero section */
+    text-align: center;
+    background-color: #000000; /* Changed from #0A192F (dark blue) to black for neutral background */
+    border-radius: 0;
+    margin-bottom: 40px;
+    overflow-x: hidden; /* Explicitly prevent horizontal overflow */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.hero-video-background {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    opacity: 0.7; /* Increased from 0.3 to 0.7 to show more of the video's natural colors */
+    padding: 0; /* Ensure no padding around the video */
+    padding-top: 0; /* Explicitly ensure no top padding */
+    margin: 0; /* Ensure no margin */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 0 20px; /* Move padding from hero-section to hero-content */
+    width: 100%; /* Ensure content respects container width */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.hero-section h1 {
+    font-size: 3.5em; /* Even larger hero heading */
+    margin-bottom: 15px;
+    color: #FFFFFF;
+    font-weight: 700;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* Add shadow for readability */
+}
+
+.hero-section p {
+    font-size: 1.5em; /* Larger hero text */
+    color: #E0E0E0; /* Lighter grey */
+    max-width: 600px; /* Limit width for readability */
+    margin-left: auto;
+    margin-right: auto;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7); /* Add shadow for readability */
+}

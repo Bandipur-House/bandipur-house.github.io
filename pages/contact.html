@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Bandipur House</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="../css/hero-header.css"> <!-- Ensure hero-header CSS is linked -->
+    <link rel="stylesheet" href="../css/footer.css"> <!-- Ensure footer CSS is linked -->
+</head>
+<body>
+    <!-- Header Component -->
+    <div id="header"></div>
+
+    <main>
+        <h1>Contact Us</h1>
+        <p>If you have any questions or inquiries, feel free to reach out to us!</p>
+        <form action="#" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+
+            <button type="submit">Send Message</button>
+        </form>
+    </main>
+
+    <!-- Footer Component -->
+    <div id="footer"></div>
+    <div class="nav-overlay"></div> <!-- Added empty overlay div -->
+
+    <!-- Load base script first -->
+    <script src="../js/script.js"></script>
+    <!-- Load component-specific scripts -->
+    <script src="../js/footer.js"></script>
+
+    <script>
+        // Function to load HTML components (Simplified: No script handling here)
+        const loadHtmlComponent = (url, elementId) => {
+            fetch(url)
+                .then(response => response.ok ? response.text() : Promise.reject(`Component not found: ${url}`))
+                .then(data => {
+                    const targetElement = document.getElementById(elementId);
+                    if (targetElement) {
+                        targetElement.innerHTML = data;
+                        console.log(`${elementId} HTML loaded from ${url}`);
+
+                        // Find and execute scripts *within* the loaded component HTML
+                        const scripts = targetElement.querySelectorAll('script');
+                        scripts.forEach(script => {
+                            const newScript = document.createElement('script');
+                            if (script.src) {
+                                // Path '../js/header.js' in header.html is correct relative to contact.html
+                                newScript.src = script.getAttribute('src');
+                                newScript.async = false; // Load sequentially
+                                document.body.appendChild(newScript); // Append to body
+                                newScript.onload = () => {
+                                    console.log(`Component script loaded: ${newScript.src}`);
+                                    // Dispatch event *after* the specific component script loads
+                                    if (elementId === 'header' && newScript.src.includes('header.js')) {
+                                        document.dispatchEvent(new CustomEvent('headerLoaded'));
+                                        console.log("Dispatched headerLoaded event (after header.js execution)");
+                                    }
+                                     // Add similar checks for other component scripts if needed
+                                };
+                                newScript.onerror = () => console.error(`Error loading script: ${newScript.src}`);
+                            } else {
+                                // Execute inline script content
+                                newScript.textContent = script.textContent;
+                                document.body.appendChild(newScript);
+                            }
+                            script.remove(); // Remove original script from component's HTML
+                        });
+
+                    } else {
+                        console.error(`Element with ID ${elementId} not found.`);
+                    }
+                })
+                .catch(error => console.error(`Error loading ${url}:`, error));
+        };
+
+        // Load HTML components
+        loadHtmlComponent('../components/header.html', 'header');
+        loadHtmlComponent('../components/footer.html', 'footer');
+    </script>
+</body>
+</html>

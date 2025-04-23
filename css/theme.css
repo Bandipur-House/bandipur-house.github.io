@@ -1,0 +1,89 @@
+body {
+    background-color: #0A192F; /* Keep dark blue background */
+    color: #E0E0E0; /* Main text color */
+    font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Arial, sans-serif; /* Ensure SF font stack */
+    line-height: 1.55; /* Slightly adjust line height */
+    overflow-x: hidden;
+    letter-spacing: 0.01em; /* Slightly less spacing */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Header theme styles moved to css/header.css */
+
+nav { /* Keep nav theme styles here or move to navigation.css */
+    background-color: transparent; /* Remove nav background for minimalism */
+    padding: 20px 0; /* Adjust padding */
+    text-align: center; /* Center navigation */
+}
+
+nav a {
+    color: #B0C4DE; /* Keep link color */
+    text-decoration: none;
+    padding: 10px 15px; /* Adjust padding */
+    margin: 0 5px;
+    border-radius: 6px; /* Slightly more rounded */
+    transition: background-color 0.2s ease, color 0.2s ease; /* Faster transition */
+}
+
+nav a:hover {
+    background-color: rgba(0, 122, 255, 0.1); /* Subtle Apple Blue background */
+    color: #007AFF; /* Apple Blue on hover */
+}
+
+/* Footer theme styles moved to css/footer.css */
+
+h1, h2, h3 {
+    color: #F5F5F7; /* Slightly brighter white for headings */
+    font-weight: 600; /* Keep semi-bold */
+    margin-top: 0;
+    letter-spacing: normal; /* Reset letter spacing for headings */
+}
+
+h1 {
+    font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Arial, sans-serif; /* Ensure SF font */
+    font-size: 2.4em; /* Slightly smaller */
+    margin-bottom: 0.6em;
+}
+h2 {
+    font-size: 1.8em; /* Slightly smaller */
+    margin-bottom: 0.5em;
+}
+h3 {
+    font-size: 1.4em; /* Slightly smaller */
+    margin-bottom: 0.4em;
+}
+
+.container {
+    max-width: 100%; /* Ensure containers do not exceed viewport width */
+    margin: auto;
+    padding: 20px;
+    overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+.button, button { /* General button styling */
+    background-color: #007AFF; /* Apple blue */
+    color: #FFFFFF; /* White text */
+    border: none; /* Remove border */
+    padding: 10px 22px; /* Adjust padding */
+    cursor: pointer;
+    border-radius: 8px; /* More rounded */
+    transition: background-color 0.2s ease; /* Faster transition */
+    font-size: 0.95em; /* Slightly smaller font */
+    font-weight: 500; /* Medium weight */
+}
+
+.button:hover, button:hover {
+    background-color: #0070E0; /* Slightly darker Apple blue on hover */
+    color: #FFFFFF;
+}
+
+main a {
+    color: #007AFF; /* Apple blue for links */
+    text-decoration: none;
+}
+
+main a:hover {
+    text-decoration: underline;
+    color: #0070E0; /* Slightly darker Apple blue on hover */
+}
