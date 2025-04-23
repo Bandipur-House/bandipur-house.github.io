@@ -1,0 +1,441 @@
+.slider-container {
+    position: relative;
+    width: 100%;
+    padding: 0; 
+    margin: 0 auto 4rem; /* Add bottom margin */
+    box-sizing: border-box; 
+}
+
+.slider-wrapper {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+    padding: 30px 25px; /* Increased horizontal padding inside wrapper */
+    /* Add subtle mask for fading edges */
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+}
+
+.slider-wrapper::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+}
+
+.slider-content {
+    display: flex;
+    flex-direction: row; 
+    gap: 25px; /* Increased gap */
+    padding: 10px 0;
+}
+
+/* Apply Apple-like card styling */
+.slider-card {
+    flex: 0 0 auto;
+    width: 340px; /* Slightly wider cards */
+    white-space: normal;
+    background: rgba(30, 41, 59, 0.7); /* Match content-card background */
+    border-radius: 18px; /* Match content-card radius */
+    overflow: hidden;
+    transition: all 0.35s ease; /* Slightly slower transition */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Match content-card border */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Match content-card shadow */
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(0);
+    min-height: 0; 
+    height: auto; 
+}
+
+.slider-card:hover {
+    transform: translateY(-6px) scale(1.01); /* Add subtle scale */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    background: rgba(40, 51, 69, 0.8); 
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.slider-card .card-image {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%; 
+    position: relative;
+    overflow: hidden;
+    /* Remove potential border radius if image is first element */
+    border-top-left-radius: 0; 
+    border-top-right-radius: 0;
+}
+
+/* Make all image containers square with consistent dimensions */
+.slider-card .card-image,
+.content-card .card-image {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%; /* Always square container */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Position all images absolutely within the square container */
+.slider-card .card-image img,
+.content-card .card-image img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    object-fit: cover;
+    object-position: center;
+    background: none;
+}
+
+/* For 3:4 images, show full image centered in the square, with letterboxing */
+.slider-card.ratio-3-4 .card-image img,
+.content-card.ratio-3-4 .card-image img {
+    object-fit: contain;
+    object-position: center;
+    background: #181a1b; /* Subtle neutral background for letterboxing */
+}
+
+/* Another option: crop 3:4 images to show just the center portion */
+.slider-card.ratio-3-4-crop .card-image img,
+.content-card.ratio-3-4-crop .card-image img {
+    object-position: center; /* Focus on the center of the image */
+    object-fit: cover; /* Will crop to fill square */
+}
+
+/* Remove any special 3:4 container height overrides so all cards remain square */
+/* Remove or override this if present: */
+/*
+.slider-card.ratio-3-4 .card-image,
+.content-card.ratio-3-4 .card-image {
+    padding-bottom: 75%;
+}
+*/
+
+/* Remove dark gradient overlay from images */
+.slider-card .card-image::after {
+    display: none; /* Remove the dark overlay */
+}
+
+.slider-card .card-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover ensures the image fills the container without distortion */
+    object-position: center; /* Center the image within the container */
+    transition: transform 0.5s ease;
+}
+
+.slider-card:hover .card-image img {
+    transform: scale(1.08);
+}
+
+.slider-card .card-content {
+    padding: 1.2rem; /* Match content-card padding */
+    flex: 1; /* Allow content to grow */
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+    text-align: center; /* Center align text */
+}
+
+/* Remove dark gradient background from card content */
+.slider-card .card-content::before {
+    display: none; /* Remove the dark gradient background */
+}
+
+.slider-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.7rem; 
+    font-size: 1.4rem; 
+    color: #f0f0f5; /* Match content-card */
+    font-weight: 600;
+    border-bottom: none; /* Remove border */
+    padding-bottom: 0; 
+    letter-spacing: -0.015em;
+    text-align: center; /* Center align header */
+}
+
+.slider-card p {
+    color: #a8b2d1; /* Match content-card */
+    font-size: 0.95rem; 
+    line-height: 1.6; 
+    margin-bottom: 0.5rem; 
+    /* Text align is inherited from .card-content */
+}
+
+.slider-card p.meta {
+    font-size: 0.8rem;
+    color: #8892b0; /* Match content-card */
+    margin-bottom: 0.8rem; 
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 500;
+    text-align: center; /* Center align meta text */
+}
+
+.slider-card:not(:has(.card-image)) .card-content {
+    padding-top: 2rem;
+    background: linear-gradient(135deg, rgba(50,60,100,0.7) 0%, rgba(30,40,60,0.9) 100%);
+    border-radius: 16px;
+}
+
+/* Add styles for location */
+.slider-card .location,
+.content-card .location {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center icon and text */
+    gap: 5px;
+}
+
+.slider-card .location i,
+.content-card .location i {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Redesign Slider Navigation Buttons */
+.slider-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px; /* Smaller buttons */
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1); /* Lighter, more glassy */
+    border-radius: 50%;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 30; 
+    border: 1px solid rgba(255, 255, 255, 0.15); /* Subtler border */
+    color: rgba(255, 255, 255, 0.8); /* Slightly transparent icon */
+    font-size: 18px; /* Smaller icon */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Softer shadow */
+    transition: all 0.25s ease; 
+    opacity: 0.8; /* Start slightly transparent */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    outline: none;
+}
+
+.slider-nav:focus {
+    /* Optional: Add focus ring */
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.3), 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.slider-nav:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 1);
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    opacity: 1;
+    transform: translateY(-50%) scale(1.05); /* Add scale effect */
+}
+
+.slider-nav:active {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-50%) scale(0.98); /* Press effect */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.slider-prev {
+    left: 15px; /* Adjust position slightly */
+}
+
+.slider-next {
+    right: 15px; /* Adjust position slightly */
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+
+/* Remove the extra .slider-scroll-right if not needed */
+.slider-scroll-right {
+   display: none; /* Hide the extra button */
+}
+
+@media (max-width: 768px) {
+    .slider-container {
+        padding: 0;
+    }
+    
+    .slider-wrapper {
+        padding: 30px 15px; /* Adjust inner padding */
+    }
+    
+    .slider-card {
+        width: 300px; /* Adjust card width */
+    }
+    
+    .slider-card .card-image {
+        height: 160px;
+    }
+
+    .slider-nav {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+
+    .slider-prev { left: 10px; }
+    .slider-next { right: 10px; }
+}
+
+@media (max-width: 480px) {
+    .slider-container {
+        padding: 0;
+    }
+    
+    .slider-wrapper {
+        padding: 30px 10px; /* Adjust inner padding */
+    }
+    
+    .slider-card {
+        width: 260px; /* Adjust card width */
+    }
+    
+    .slider-card .card-image {
+        height: 140px;
+    }
+    
+    .slider-card .card-content {
+        padding: 1.2rem;
+    }
+    
+    .slider-card h3 {
+        font-size: 1.3rem;
+    }
+}
+
+.content-card {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    transform: translateY(0);
+    min-height: 0; /* Remove minimum height constraint */
+    height: auto; /* Let height be determined by content */
+}
+
+.content-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.content-card .card-image {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%; /* Always square container */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Make all image containers square with consistent dimensions */
+.slider-card .card-image,
+.content-card .card-image {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%; /* Always square container */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Position all images absolutely within the square container */
+.slider-card .card-image img,
+.content-card .card-image img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    object-fit: cover;
+    object-position: center;
+    background: none;
+}
+
+/* For 3:4 images, show full image centered in the square, with letterboxing */
+.slider-card.ratio-3-4 .card-image img,
+.content-card.ratio-3-4 .card-image img {
+    object-fit: contain;
+    object-position: center;
+    background: #181a1b; /* Subtle neutral background for letterboxing */
+}
+
+/* Another option: crop 3:4 images to show just the center portion */
+.slider-card.ratio-3-4-crop .card-image img,
+.content-card.ratio-3-4-crop .card-image img {
+    object-position: center; /* Focus on the center of the image */
+    object-fit: cover; /* Will crop to fill square */
+}
+
+/* Remove any special 3:4 container height overrides so all cards remain square */
+/* Remove or override this if present: */
+/*
+.slider-card.ratio-3-4 .card-image,
+.content-card.ratio-3-4 .card-image {
+    padding-bottom: 75%;
+}
+*/
+
+.content-card .card-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center; /* Centers the image in the container */
+    transition: transform 0.5s ease;
+}
+
+.content-card:hover .card-image img {
+    transform: scale(1.08);
+}
+
+.content-card .card-content {
+    padding: 0.8rem; /* Match padding with slider cards */
+    flex: none; /* Prevent stretching */
+}
+
+.content-card h3, 
+.content-card p, 
+.content-card p.meta {
+    color: #fff;
+}
+
+/* Add styles for location */
+.content-card .location {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.content-card .location i {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+}

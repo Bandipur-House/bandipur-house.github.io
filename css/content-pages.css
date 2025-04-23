@@ -1,23 +1,24 @@
 .page-header {
     text-align: center;
-    padding: 4rem 1rem 2.5rem;
-    max-width: 700px;
+    padding: 5rem 1.5rem 3rem; /* Increased top padding, adjusted horizontal */
+    max-width: 750px; /* Slightly wider */
     margin: 0 auto;
 }
 
 .page-header h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
+    font-size: 3.2rem; /* Larger H1 */
+    margin-bottom: 1.2rem; /* More space below H1 */
+    font-weight: 700;
+    letter-spacing: -0.025em;
 }
 
 .page-header p {
-    font-size: 1.15rem;
-    color: #C5C5C7;
-    max-width: 600px;
-    margin: 0 auto 2rem;
+    font-size: 1.2rem; /* Slightly larger paragraph */
+    color: #b0b8c5; /* Softer text color */
+    max-width: 650px;
+    margin: 0 auto 2.5rem;
     font-weight: 400;
-    line-height: 1.6;
+    line-height: 1.65;
 }
 
 .content-grid {
@@ -29,44 +30,139 @@
     margin: 0 auto;
 }
 
-.content-card {
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
+/* Update content grid to match slider functionality for the event page */
+.event-page .content-grid {
+    display: flex;
+    grid-template-columns: none;
+    grid-gap: 1.5rem;
+    overflow-x: auto;
     padding: 1.5rem;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.event-page .content-grid::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+}
+
+/* General Content Card Style (Apply Apple aesthetic) */
+.content-card {
+    background: rgba(30, 41, 59, 0.7); /* Darker, slightly transparent background */
+    border-radius: 18px; /* More pronounced rounding */
+    padding: 0; 
+    overflow: hidden; /* Ensure content respects border-radius */
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtler border */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Softer, deeper shadow */
+    display: flex; /* Keep flex properties if needed */
+    flex-direction: column;
+    transform: translateY(0);
+    min-height: 0; 
+    height: auto; 
 }
 
 .content-card:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-6px); /* Slightly less lift */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    background: rgba(40, 51, 69, 0.8); /* Slightly lighter on hover */
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.content-card .card-content { /* Style content within the card */
+    padding: 1.2rem; /* Consistent padding */
+    flex: 1; /* Allow content to grow if needed */
+    display: flex; /* Add flex display */
+    flex-direction: column; /* Stack content vertically */
+    text-align: center; /* Center align text */
+}
+
+.content-card p:last-of-type {
+    margin-bottom: 1rem; /* Add space below last paragraph before button */
+}
+
+/* Add styles for location */
+.content-card .location {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center icon and text */
+    gap: 5px;
+}
+
+/* Style for the register button (pill shape) */
+.register-button {
+    display: inline-block;
+    background-color: #007AFF; /* Apple blue */
+    color: #FFFFFF; /* White text */
+    padding: 6px 18px; /* Slightly adjusted padding for better proportion */
+    border-radius: 999px; /* Pill shape */
+    text-decoration: none;
+    font-size: 0.85rem; /* Slightly smaller font */
+    font-weight: 500; /* Medium weight */
+    margin-top: auto; /* Push button to the bottom */
+    align-self: center; /* Center button horizontally */
+    transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, background-image 0.25s ease; /* Added background-image transition */
+    border: 1px solid transparent; 
+    cursor: pointer;
+    text-align: center;
+    line-height: 1.4; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    background-image: none; /* Ensure no gradient initially */
+}
+
+.register-button:hover {
+    background-color: #0070E0; /* Base darker blue */
+    /* Add a subtle top-to-bottom gradient */
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.05)); 
+    transform: translateY(-2px) scale(1.02); /* Slightly more lift and scale */
+    color: #FFFFFF; 
+    box-shadow: 0 5px 10px rgba(0, 122, 255, 0.2); /* Softer, blue-tinted shadow */
+}
+
+.register-button:active {
+    transform: translateY(0px) scale(1); /* Reset scale on press */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); 
+    background-color: #005ecb; 
+    background-image: none; /* Remove gradient on active */
 }
 
 .content-card h3 {
     margin-top: 0;
-    margin-bottom: 0.8rem;
-    font-size: 1.4rem;
-    color: #fff;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 0.8rem;
+    margin-bottom: 0.7rem; 
+    font-size: 1.4rem; 
+    color: #f0f0f5; /* Brighter heading color */
+    border-bottom: none; /* Remove border */
+    padding-bottom: 0; 
+    font-weight: 600;
+    letter-spacing: -0.015em;
 }
 
 .content-card p {
-    color: #a8b2d1;
-    font-size: 0.95rem;
-    line-height: 1.6;
+    color: #a8b2d1; /* Keep softer text color */
+    font-size: 0.95rem; /* Slightly larger */
+    line-height: 1.6; 
+    margin-bottom: 0.5rem; 
 }
 
 .content-card p.meta {
     font-size: 0.8rem;
-    color: #A0A0A5;
-    margin-bottom: 0.8rem;
+    color: #8892b0; /* Even softer meta text */
+    margin-bottom: 0.8rem; /* More space below meta */
     letter-spacing: 0.05em;
     text-transform: uppercase;
+    font-weight: 500;
+}
+
+.sorting-note {
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
 }
 
 .contact-form {

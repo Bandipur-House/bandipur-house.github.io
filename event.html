@@ -9,20 +9,103 @@
     <link rel="stylesheet" href="css/hero-header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/content-pages.css">
+    <link rel="stylesheet" href="css/content-slider.css">
+    <style>
+        /* Style for the titles above sliders */
+        .slider-title {
+            font-size: 1.6rem; /* Adjust size as needed */
+            color: #e0e0e0; /* Match theme text color */
+            margin-bottom: 1rem; /* Space below title */
+            margin-left: 25px; /* Align with slider content padding */
+            font-weight: 600;
+        }
+        /* Adjust margin for subsequent titles */
+        .slider-title + .slider-container {
+             margin-top: 0; /* Remove extra top margin if title is present */
+        }
+         .slider-container + .slider-title {
+             margin-top: 3rem; /* Space between sliders */
+         }
+
+        /* Styles for the upcoming events grid */
+        #upcoming-events-container {
+            max-width: 1200px; /* Or your preferred max width */
+            margin: 2rem auto 4rem; /* Center the container and add spacing */
+            padding: 0 15px; /* Padding for smaller screens */
+        }
+        #event-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Responsive grid */
+            gap: 2rem; /* Spacing between cards */
+            justify-content: center; /* Center items if they don't fill the row */
+            min-height: 100px; /* Ensure container has some height for centering */
+        }
+        
+        /* Styles for the loading/empty messages */
+        .event-message {
+            font-size: 1.1rem; /* Increased font size */
+            color: #a8b2d1; /* Softer text color */
+            text-align: center; /* Center the text */
+            width: 100%; /* Ensure paragraph takes full width of container/cell */
+            padding: 2rem 1rem; /* Add some padding around the message */
+            box-sizing: border-box; /* Include padding in width */
+        }
+        /* Ensure message is centered in slider containers too */
+        .slider-content > .event-message {
+             margin: auto; /* Center block element horizontally in flex container */
+        }
+        /* Center message within the upcoming events grid when it's the only item */
+        #event-grid > .event-message:only-child {
+            grid-column: 1 / -1; /* Make the message span all columns */
+            text-align: center; /* Ensure text is centered */
+        }
+    </style>
 </head>
 <body>
     <!-- Header Component -->
     <div id="header"></div>
 
     <main>
+        <!-- Upcoming Events Section -->
         <div class="page-header">
             <h1>Upcoming Events</h1>
             <p>Join us for these exciting events organized by Bandipur House. Connect with fellow students, learn new skills, and build lasting memories.</p>
         </div>
 
-        <div class="content-grid" id="event-grid">
-            <!-- Event cards will be loaded here by JavaScript -->
-            <p>Loading events...</p> <!-- Loading indicator -->
+        <!-- Upcoming Events Grid Container -->
+        <div id="upcoming-events-container">
+            <div id="event-grid"> <!-- This will be styled as a grid -->
+                <p>Loading events...</p>
+            </div>
+        </div>
+
+        <!-- Past Events Main Heading -->
+        <div class="page-header" style="margin-top:3rem; margin-bottom: 1rem;">
+            <h1>Past Events</h1>
+        </div>
+
+        <!-- All Past Events Slider -->
+        <h2 class="slider-title">All Events</h2>
+        <div class="slider-container">
+            <button class="slider-nav slider-prev" id="allPastEventsPrev">&#10094;</button>
+            <div class="slider-wrapper" id="all-past-events-slider">
+                <div class="slider-content" id="all-past-events-grid">
+                    <p>Loading past events...</p>
+                </div>
+            </div>
+            <button class="slider-nav slider-next" id="allPastEventsNext">&#10095;</button>
+        </div>
+
+        <!-- Meetups Slider -->
+        <h2 class="slider-title">Meetups</h2>
+        <div class="slider-container">
+            <button class="slider-nav slider-prev" id="meetupsPrev">&#10094;</button>
+            <div class="slider-wrapper" id="meetups-slider">
+                <div class="slider-content" id="meetups-grid">
+                    <p>Loading meetups...</p>
+                </div>
+            </div>
+            <button class="slider-nav slider-next" id="meetupsNext">&#10095;</button>
         </div>
     </main>
 
@@ -31,106 +114,84 @@
     <div class="nav-overlay"></div>
 
     <script src="js/script.js"></script>
+    <script src="js/events.js"></script>
     <script>
-        // Load components (Keep your existing function)
+        // Function to load HTML components
         const loadHtmlComponent = (url, elementId) => {
+            console.log(`Initiating load for ${elementId} from ${url}`);
             fetch(url)
-                .then(response => response.ok ? response.text() : Promise.reject(`Component not found: ${url}`))
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Component not found: ${url} (Status: ${response.status})`);
+                    }
+                    return response.text();
+                })
                 .then(data => {
                     const targetElement = document.getElementById(elementId);
                     if (targetElement) {
                         targetElement.innerHTML = data;
-                        // Execute scripts from components (Keep existing logic)
-                        const scripts = targetElement.querySelectorAll('script');
-                        scripts.forEach(script => {
+                        console.log(`${elementId} HTML successfully injected.`);
+
+                        // Find and execute scripts *within* the loaded component HTML
+                        const scripts = Array.from(targetElement.querySelectorAll('script')); // Convert NodeList to Array
+                        
+                        // Function to load scripts sequentially
+                        const loadScriptsSequentially = (index = 0) => {
+                            if (index >= scripts.length) {
+                                // All scripts for this component are processed
+                                // Dispatch headerLoaded *only* after header's scripts are done
+                                if (elementId === 'header') {
+                                    console.log("All header scripts processed. Dispatching headerLoaded event.");
+                                    document.dispatchEvent(new CustomEvent('headerLoaded'));
+                                }
+                                return;
+                            }
+
+                            const script = scripts[index];
                             const newScript = document.createElement('script');
+
                             if (script.src) {
                                 let scriptSrc = script.getAttribute('src');
+                                // Adjust relative paths if necessary
                                 if (scriptSrc.startsWith('../')) {
-                                    scriptSrc = scriptSrc.substring(3);
+                                    scriptSrc = scriptSrc.substring(3); // Remove ../ assuming component is 1 level deep
                                 }
                                 newScript.src = scriptSrc;
-                                newScript.async = false;
+                                newScript.async = false; // Ensure sequential execution
+                                
+                                newScript.onload = () => {
+                                    console.log(`Component script loaded successfully: ${newScript.src}`);
+                                    script.remove(); // Clean up original script tag
+                                    loadScriptsSequentially(index + 1); // Load next script
+                                };
+                                newScript.onerror = () => {
+                                    console.error(`Error loading component script: ${newScript.src}`);
+                                    script.remove(); // Clean up original script tag
+                                    loadScriptsSequentially(index + 1); // Attempt to load next script even if one fails
+                                };
                                 document.body.appendChild(newScript);
-                                if (elementId === 'header' && scriptSrc.includes('header.js')) {
-                                    newScript.onload = () => document.dispatchEvent(new CustomEvent('headerLoaded'));
-                                }
                             } else {
+                                // Execute inline script content
                                 newScript.textContent = script.textContent;
                                 document.body.appendChild(newScript);
+                                console.log(`Inline script executed for ${elementId}.`);
+                                script.remove(); // Clean up original script tag
+                                loadScriptsSequentially(index + 1); // Process next script
                             }
-                            script.remove();
-                        });
+                        };
+                        
+                        loadScriptsSequentially(); // Start loading scripts for the component
+
+                    } else {
+                        console.error(`Target element with ID '${elementId}' not found in the DOM.`);
                     }
                 })
-                .catch(error => console.error(`Error loading ${url}:`, error));
+                .catch(error => console.error(`Error loading component ${url}:`, error));
         };
 
+        // Load HTML components
         loadHtmlComponent('components/header.html', 'header');
         loadHtmlComponent('components/footer.html', 'footer');
-
-        // Fetch and display events
-        document.addEventListener('DOMContentLoaded', () => {
-            const eventGrid = document.getElementById('event-grid');
-            if (!eventGrid) {
-                console.error("Event grid container not found!");
-                return;
-            }
-
-            // Adjust the path if your site is in a subfolder on GitHub Pages
-            const dataUrl = '_data/events.json';
-
-            fetch(dataUrl)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status} fetching ${dataUrl}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    eventGrid.innerHTML = ''; // Clear loading message
-                    // Check if the data is directly an array or nested under 'event_items'
-                    const events = Array.isArray(data) ? data : (data && data.event_items ? data.event_items : []);
-
-                    if (events.length > 0) {
-                        // Sort events by date, newest first (optional)
-                        events.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-                        events.forEach(event => {
-                            const card = document.createElement('div');
-                            card.classList.add('content-card');
-
-                            // Format the date
-                            let formattedDate = 'Date not set';
-                            try {
-                                const eventDate = new Date(event.date);
-                                // Add timezone offset to prevent date shifting issues
-                                const userTimezoneOffset = eventDate.getTimezoneOffset() * 60000;
-                                const correctedDate = new Date(eventDate.getTime() + userTimezoneOffset);
-                                formattedDate = correctedDate.toLocaleDateString('en-US', {
-                                    year: 'numeric', month: 'long', day: 'numeric'
-                                });
-                            } catch (e) {
-                                console.warn("Could not parse date:", event.date);
-                            }
-
-
-                            card.innerHTML = `
-                                <p class="meta">${formattedDate}</p>
-                                <h3>${event.title || 'No Title'}</h3>
-                                <p>${event.description || 'No Description'}</p>
-                            `;
-                            eventGrid.appendChild(card);
-                        });
-                    } else {
-                        eventGrid.innerHTML = '<p>No upcoming events found.</p>';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching or processing events:', error);
-                    eventGrid.innerHTML = '<p>Could not load events. Please check the console for errors.</p>';
-                });
-        });
     </script>
 </body>
 </html>

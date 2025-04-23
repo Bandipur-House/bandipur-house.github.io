@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500&family=Roboto+Serif:wght@400&display=swap');
 
 body, html {
-    overflow-x: hidden; 
     margin: 0; 
     padding: 0; 
     width: 100%; 
@@ -24,7 +23,6 @@ body.nav-open {
 
 .container {
     max-width: 100%; /* Ensure containers do not exceed viewport width */
-    overflow-x: hidden; /* Prevent horizontal overflow */
     /* padding handled by theme.css */
     margin: auto;
     padding-left: 20px; /* Add padding if not in theme.css */

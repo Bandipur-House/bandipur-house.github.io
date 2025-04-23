@@ -1,10 +1,11 @@
 body {
     background-color: #0A192F; /* Keep dark blue background */
     color: #E0E0E0; /* Main text color */
-    font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Arial, sans-serif; /* Ensure SF font stack */
-    line-height: 1.55; /* Slightly adjust line height */
+    /* Prioritize Apple system fonts, fallback to common sans-serif */
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    line-height: 1.6; /* Slightly increased line height */
     overflow-x: hidden;
-    letter-spacing: 0.01em; /* Slightly less spacing */
+    letter-spacing: -0.01em; /* Slightly tighter spacing for SF font */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -37,21 +38,23 @@ h1, h2, h3 {
     color: #F5F5F7; /* Slightly brighter white for headings */
     font-weight: 600; /* Keep semi-bold */
     margin-top: 0;
-    letter-spacing: normal; /* Reset letter spacing for headings */
+    /* Use system font for headings too */
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    letter-spacing: -0.02em; /* Slightly tighter for display fonts */
 }
 
 h1 {
-    font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Arial, sans-serif; /* Ensure SF font */
-    font-size: 2.4em; /* Slightly smaller */
-    margin-bottom: 0.6em;
+    font-size: 2.8em; /* Adjusted size */
+    margin-bottom: 0.7em;
+    font-weight: 700; /* Bolder for H1 */
 }
 h2 {
-    font-size: 1.8em; /* Slightly smaller */
-    margin-bottom: 0.5em;
+    font-size: 2.0em; /* Adjusted size */
+    margin-bottom: 0.6em;
 }
 h3 {
-    font-size: 1.4em; /* Slightly smaller */
-    margin-bottom: 0.4em;
+    font-size: 1.5em; /* Adjusted size */
+    margin-bottom: 0.5em;
 }
 
 .container {
