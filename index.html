@@ -6,12 +6,13 @@
     <title>Bandipur House</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/theme.css">
-    <link rel="stylesheet" href="css/hero-header.css"> <!-- Added link to new CSS -->
-    <link rel="stylesheet" href="css/footer.css"> <!-- Link footer CSS directly -->
+    <link rel="stylesheet" href="css/header.css"> <!-- Changed from hero-header.css -->
+    <link rel="stylesheet" href="css/hero.css"> <!-- Add separate hero styles -->
+    <link rel="stylesheet" href="css/footer.css">
     
     <!-- Add preload for critical assets -->
     <link rel="preload" href="components/header.html" as="fetch" crossorigin="anonymous">
-    <link rel="preload" href="css/hero-header.css" as="style">
+    <link rel="preload" href="components/hero.html" as="fetch" crossorigin="anonymous">
     
     <style>
         /* Ensure container padding is applied if not globally */
@@ -25,9 +26,9 @@
         }
     </style>
 </head>
-<body>
-    <div id="header"></div>
-    <div id="hero"></div> <!-- Placeholder for the hero section -->
+<body class="home-page">
+    <div id="header"></div> <!-- Header component -->
+    <div id="hero"></div> <!-- Hero component, completely separate -->
     <main>
         <div class="container"> <!-- Wrap main content in container -->
             
@@ -57,16 +58,12 @@
         </div>
     </main>
     <div id="footer"></div>
-    <div class="nav-overlay"></div> <!-- Added empty overlay div -->
+    <div class="nav-overlay"></div>
 
-    <!-- Load base script first -->
     <script src="js/script.js"></script>
-    <script src="js/footer.js"></script>
-    <!-- New page transition script for faster navigation -->
     <script src="js/page-transition.js"></script>
-
     <script>
-        // Function to load HTML components (Simplified: No script handling here)
+        // Function to load HTML components
         const loadHtmlComponent = (url, elementId) => {
             fetch(url)
                 .then(response => response.ok ? response.text() : Promise.reject(`Component not found: ${url}`))
@@ -76,31 +73,37 @@
                         targetElement.innerHTML = data;
                         console.log(`${elementId} HTML loaded from ${url}`);
 
-                        // Find and execute scripts *within* the loaded component HTML
+                        // *** ADDED CHECK FOR NAV TOGGLE ***
+                        if (elementId === 'header') {
+                            const loadedNavToggle = targetElement.querySelector('.nav-toggle');
+                            console.log("Nav toggle element inside loaded header:", loadedNavToggle);
+                        }
+                        // *** END ADDED CHECK ***
+
+                        // Find and execute scripts within the loaded component HTML
                         const scripts = targetElement.querySelectorAll('script');
                         scripts.forEach(script => {
                             const newScript = document.createElement('script');
                             if (script.src) {
-                                // Adjust relative paths if necessary when loading into index.html
-                                // The path in header.html is '../js/header.js' relative to components/
-                                // When loaded into index.html (root), it needs to be 'js/header.js'
                                 let scriptSrc = script.getAttribute('src');
                                 if (scriptSrc.startsWith('../')) {
-                                     // Simple relative path adjustment (might need refinement for deeper structures)
-                                     scriptSrc = scriptSrc.substring(3); // Remove ../
+                                    scriptSrc = scriptSrc.substring(3); // Remove ../
                                 }
                                 newScript.src = scriptSrc;
                                 newScript.async = false; // Load sequentially
                                 document.body.appendChild(newScript); // Append to body
+                                
+                                // Dispatch event after script loads based on component
                                 newScript.onload = () => {
-                                    console.log(`Component script loaded: ${newScript.src}`);
-                                    // Dispatch event *after* the specific component script loads
-                                    if (elementId === 'header' && newScript.src.includes('header.js')) {
+                                    if (elementId === 'header' && scriptSrc.includes('header.js')) {
                                         document.dispatchEvent(new CustomEvent('headerLoaded'));
-                                        console.log("Dispatched headerLoaded event (after header.js execution)");
+                                        console.log("Dispatched headerLoaded event");
+                                    } else if (elementId === 'hero' && scriptSrc.includes('hero.js')) {
+                                        document.dispatchEvent(new CustomEvent('heroLoaded'));
+                                        console.log("Dispatched heroLoaded event");
                                     }
-                                    // Add similar checks for other component scripts if needed
                                 };
+                                
                                 newScript.onerror = () => console.error(`Error loading script: ${newScript.src}`);
                             } else {
                                 // Execute inline script content
@@ -109,7 +112,6 @@
                             }
                             script.remove(); // Remove original script from component's HTML
                         });
-
                     } else {
                         console.error(`Element with ID ${elementId} not found.`);
                     }
@@ -117,11 +119,10 @@
                 .catch(error => console.error(`Error loading ${url}:`, error));
         };
 
-        // Load HTML components
+        // Load components in sequence - header first, then hero, then footer
         loadHtmlComponent('components/header.html', 'header');
-        loadHtmlComponent('components/hero.html', 'hero'); // Assuming hero might have JS later
+        loadHtmlComponent('components/hero.html', 'hero');
         loadHtmlComponent('components/footer.html', 'footer');
-
     </script>
 </body>
 </html>

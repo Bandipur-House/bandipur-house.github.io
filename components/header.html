@@ -1,37 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bandipur House</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/theme.css">
-    <link rel="stylesheet" href="../css/hero-header.css"> <!-- Added link to new CSS -->
-</head>
-<body>
-    <header class="header">
-        <div class="header-wrapper">
-            <div class="logo">
-                <a href="index.html">
-                    <span class="logo-text">Bandipur House</span>
-                </a>
-            </div>
-            <div class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" tabindex="0">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <nav class="main-nav" id="main-nav" aria-label="Main navigation">
-                <ul class="nav-list">
-                    <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-                    <li class="nav-item"><a href="event.html" class="nav-link">Events</a></li>
-                    <li class="nav-item"><a href="crew.html" class="nav-link">Crew</a></li>
-                    <li class="nav-item"><a href="club.html" class="nav-link">Club</a></li>
-                    <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
-                </ul>
-            </nav>
+<!-- Link to combined header styles -->
+<link rel="stylesheet" href="../css/header.css">
+
+<header class="header">
+    <div class="header-wrapper">
+        <div class="logo">
+            <a href="index.html">
+                <span class="logo-text">Bandipur House</span>
+            </a>
         </div>
-    </header>
-    <script src="../js/header.js"></script>
-</body>
-</html>
+        
+        <!-- Desktop navigation menu - inside header -->
+        <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="event.html" class="nav-link">Events</a></li>
+                <li class="nav-item"><a href="crew.html" class="nav-link">Crew</a></li>
+                <li class="nav-item"><a href="club.html" class="nav-link">Club</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+        
+        <!-- Hamburger menu toggle - Make sure it has proper styling -->
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" tabindex="0">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>
+
+<!-- Overlay for mobile nav -->
+<div class="nav-overlay" id="nav-overlay"></div>
+
+<!-- Mobile Navigation Panel - separate from header -->
+<div class="mobile-nav-container">
+    <nav class="mobile-main-nav" id="mobile-main-nav" aria-label="Mobile navigation">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="event.html" class="nav-link">Events</a></li>
+            <li class="nav-item"><a href="crew.html" class="nav-link">Crew</a></li>
+            <li class="nav-item"><a href="club.html" class="nav-link">Club</a></li>
+            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+    </nav>
+</div>
+
+<script src="../js/header.js"></script>

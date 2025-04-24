@@ -1,36 +1,37 @@
-/* Styles specific to the new header component */
+/* Combined Header and Mobile Navigation Styles */
+
+/* ==================== */
+/* HEADER BASE STYLES */
+/* ==================== */
 .header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 60px !important; /* Increased from 55px */
-    min-height: 60px !important; /* Increased from 55px */
-    max-height: 60px !important; /* Increased from 55px */
-    overflow: visible; /* Allow navigation dropdown to overflow */
-    background-color: transparent; /* Transparent initially */
-    padding: 0 !important; /* Force no padding */
-    margin: 0 !important; /* Force no margin */
-    z-index: 1000;
-    transition: all 0.3s ease;
-    border-bottom: 1px solid transparent; /* Transparent border initially */
-    /* backdrop-filter: blur(5px); Removed initially */
+    height: 60px !important;
+    min-height: 60px !important;
+    max-height: 60px !important;
+    overflow: visible;
+    background-color: rgba(10, 10, 10, 0.25); /* Adjusted alpha from 0.40 */
+    padding: 0 !important;
+    margin: 0 !important;
+    z-index: 990;
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease, border-bottom-color 0.3s ease, height 0.3s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(18px) saturate(1.1);
+    -webkit-backdrop-filter: blur(18px) saturate(1.1);
+    will-change: height;
 }
 
 .header.scrolled {
-    height: 55px !important; /* Increased from 50px */
-    min-height: 55px !important; /* Increased from 50px */
-    max-height: 55px !important; /* Increased from 50px */
-    background-color: rgba(10, 25, 47, 0.95); /* Apply background on scroll */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    border-bottom: 1px solid rgba(24, 119, 242, 0.25); /* Apply border on scroll */
-    backdrop-filter: blur(5px); /* Apply blur on scroll */
-}
-
-.header .container {
-    padding: 0 !important;
-    margin: 0 auto !important;
-    height: 100% !important;
+    height: 55px !important;
+    min-height: 55px !important;
+    max-height: 55px !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    background-color: rgba(10, 10, 10, 0.50); /* Adjusted alpha from 0.65 */
+    backdrop-filter: blur(20px) saturate(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(1.2);
 }
 
 .header-wrapper {
@@ -38,58 +39,69 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 100% !important; /* Force to fill header height */
-    padding: 0 15px !important; /* Horizontal padding only */
+    height: 100%;
+    padding: 0 15px !important;
     max-width: 1100px;
     margin: 0 auto !important;
+    box-sizing: border-box;
+    position: relative; /* Positioning context for absolute children */
+}
+
+/* ==================== */
+/* LOGO STYLES */
+/* ==================== */
+.logo {
+    flex-shrink: 0;
+    display: flex; /* Ensure logo div itself uses flex */
+    align-items: center; /* Vertically center content within the logo div */
+    height: 100%; /* Make logo div take full header height */
 }
 
 .logo a {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    /* align-items: flex-start; */ /* Remove or change this */
+    align-items: center; /* Center items (text/subtext) vertically within the link */
+    justify-content: center; /* Center items horizontally if needed, or vertically if direction was row */
     color: #fff;
     text-decoration: none;
-    line-height: 1 !important; /* Adjusted line height */
+    line-height: 1 !important;
     padding: 0 !important;
     margin: 0 !important;
+    height: 100%; /* Make link take full height of its container */
 }
 
-/* Ensure 'Playfair Display' font is loaded via @font-face or a font service */
 .logo-text {
     font-family: 'Playfair Display', serif;
-    font-size: 24px !important; /* Increased from 20px */
+    font-size: 32px !important;
     font-weight: 700;
     letter-spacing: 0;
     color: #FFFFFF;
-    line-height: 1 !important; /* Adjusted line height */
+    line-height: 1 !important;
     padding: 0 !important;
     margin: 0 !important;
 }
 
 .logo-subtext {
-    font-family: 'Neue Montreal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 9px !important; /* Increased from 8px */
+    font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Arial, sans-serif;
+    font-size: 9px !important;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #B0C4DE;
+    letter-spacing: 1.2px;
+    color: #A0A0A5;
     padding: 0 !important;
     margin: 0 !important;
-    line-height: 1 !important; /* Adjusted line height */
+    line-height: 1 !important;
+    margin-left: 8px;
 }
 
-.main-nav {
-    display: flex;
-    align-items: center;
-    height: 100% !important;
-}
-
+/* ==================== */
+/* NAVIGATION STYLES */
+/* ==================== */
 .nav-list {
     display: flex;
     list-style: none;
     margin: 0 !important;
     padding: 0 !important;
-    height: 100% !important;
 }
 
 .nav-item {
@@ -97,219 +109,515 @@
     padding: 0 !important;
     display: flex;
     align-items: center;
-    height: 100% !important;
 }
 
 .nav-link {
     display: flex;
     align-items: center;
-    padding: 0 12px !important; /* Increased from 10px */
-    height: 100% !important;
-    color: #edeeee;
+    padding: 0 12px !important;
+    color: #E0E0E0;
     text-decoration: none;
-    font-size: 15px !important; /* Increased from 14px */
+    font-size: 15px !important;
     font-weight: 500;
-    letter-spacing: 0;
-    transition: all 0.3s ease;
-    border-radius: 4px;
+    letter-spacing: normal;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    border-radius: 6px;
     position: relative;
+    background-color: transparent;
 }
 
-/* Optional Register Button Styling (if used) */
+.nav-link:hover {
+    color: #FFFFFF !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.nav-link.active {
+    color: #FFFFFF !important;
+    font-weight: 600;
+    background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Desktop Navigation */
+.main-nav {
+    display: flex;
+    align-items: center;
+    height: 100% !important;
+}
+
 .register-btn {
     background-color: transparent;
-    color: #007AFF; /* Apple Blue */
+    color: #007AFF;
     padding: 8px 20px;
     border-radius: 4px;
     font-weight: 600;
     letter-spacing: 1px;
     text-transform: uppercase;
     transition: all 0.3s ease;
-    border: 1px solid #007AFF; /* Apple Blue */
+    border: 1px solid #007AFF;
     font-size: 14px;
-    margin-left: 10px; /* Space from other nav items */
+    margin-left: 10px;
 }
 
 .register-btn:hover {
-    background-color: rgba(0, 122, 255, 0.1); /* Subtle Apple Blue */
-    color: #007FFF; /* Lighter Apple Blue */
-    border-color: #007FFF; /* Lighter Apple Blue */
+    background-color: rgba(0, 122, 255, 0.1);
+    color: #007FFF;
+    border-color: #007FFF;
 }
 
+/* ==================== */
+/* MOBILE NAV STYLES */
+/* ==================== */
+/* Hamburger toggle button - Base styles (Mobile First) */
 .nav-toggle {
-    display: none; /* Hidden by default */
-    flex-direction: column;
-    justify-content: space-between;
-    width: 24px; /* Smaller toggle */
-    height: 16px; /* Smaller toggle */
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%); /* Center vertically */
+    z-index: 1002;
+    width: 22px;
+    height: 16px;
     cursor: pointer;
-    z-index: 1001; /* Ensure it's above overlay */
-    position: relative; /* Needed for z-index */
+    padding: 8px; /* Clickable area */
+    margin: 0;
+    justify-content: space-between;
+    flex-direction: column;
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    box-sizing: content-box; /* Padding adds to width/height */
 }
 
+/* Styles for the hamburger lines */
 .nav-toggle span {
     display: block;
-    height: 2px; /* Thinner lines */
+    height: 2px;
     width: 100%;
-    background-color: #B0C4DE; /* Match link color */
-    border-radius: 2px;
-    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    border-radius: 1px;
+    transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
+                opacity 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),
+                background-color 0.3s ease;
 }
 
-/* Mobile Navigation Styles */
-.mobile-only {
-    display: none;
+.nav-toggle span:nth-child(2) {
+    margin: 4px 0;
 }
 
-/* The nav overlay that darkens the screen */
+/* Hamburger to X animation */
+.nav-toggle.active span {
+    background-color: rgba(255, 255, 255, 1) !important;
+}
+
+.nav-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(0px, -2px);
+    width: 115%; /* Slightly adjust width for X */
+}
+
+.nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-8px);
+}
+
+.nav-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(0px, 2px);
+    width: 115%; /* Slightly adjust width for X */
+}
+
+.nav-toggle:hover span {
+    background-color: #FFFFFF !important;
+}
+
+.nav-toggle:hover {
+    opacity: 0.85;
+}
+
+/* Mobile navigation overlay */
 .nav-overlay {
-    display: none;
+    display: block;
+    opacity: 0;
+    pointer-events: none;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 998;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.4);
+    transition: opacity 0.4s ease;
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .nav-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Mobile navigation container */
+.mobile-nav-container {
+    display: block !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0; /* Let child control size */
+    z-index: 1001; /* Above overlay */
+    pointer-events: none; /* Allow clicks through container when nav is hidden */
+}
+
+.mobile-main-nav {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: 70vh;
+    background-color: rgba(40, 40, 42, 0.75);
+    backdrop-filter: blur(25px) saturate(1.8);
+    -webkit-backdrop-filter: blur(25px) saturate(1.8);
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.2);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    transform: translateY(100%);
+    visibility: hidden;
+    transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+    will-change: transform;
+    opacity: 1; /* Control with visibility/transform */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    overflow-y: auto;
+    padding: 15px 0 30px 0;
+    box-sizing: border-box;
+    pointer-events: none; /* Disable pointer events when hidden */
+}
+
+.mobile-main-nav.active {
+    transform: translateY(0);
+    visibility: visible;
+    pointer-events: auto; /* Enable pointer events when active */
+}
+
+/* iOS-style Handle */
+.mobile-main-nav::before {
+    content: '';
     display: block;
+    width: 36px;
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 2.5px;
+    margin: 0 auto 10px auto;
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease 0.15s;
+}
+
+.mobile-main-nav.active::before {
     opacity: 1;
 }
 
-/* Mobile Responsive Styles */
-@media (max-width: 992px) {
-    .header {
-        padding: 5px 0; /* Reintroduce some padding for mobile layout */
-    }
+/* Body style when nav is open */
+body.nav-open {
+    position: fixed !important;
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+    padding-right: 0 !important;
+}
 
-    .header-wrapper {
-        padding: 0 15px; /* Adjust padding for mobile */
-    }
-
-    .mobile-only {
-        /* display: block; */ /* Only if using mobile-specific items */
-    }
-
-    .nav-toggle {
-        display: flex;
-    }
-
-    .nav-toggle.active span {
-         background-color: #007AFF; /* Apple Blue when active */
-    }
-
-    .nav-toggle.active span:nth-child(1) {
-        transform: translateY(8px) rotate(45deg);
-    }
-
-    .nav-toggle.active span:nth-child(2) {
-        opacity: 0;
-    }
-
-    .nav-toggle.active span:nth-child(3) {
-        transform: translateY(-8px) rotate(-45deg);
-    }
-
-    /* Mobile navigation panel */
-    .main-nav {
-        position: fixed;
-        top: 0;
-        right: -100%; /* Start off-screen */
-        width: 80%; /* Adjust width */
-        max-width: 300px; /* Max width */
-        height: 100vh;
-        background-color: #0A192F; /* Solid background */
-        flex-direction: column;
-        align-items: flex-start; /* Align items left */
-        padding: 80px 20px 40px;
-        transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1); /* Smooth ease-out */
-        z-index: 999;
-        overflow-y: auto;
-        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.4);
-    }
-
-    .main-nav.active {
-        right: 0; /* Slide in */
-    }
-
-    .nav-list {
-        flex-direction: column;
-        width: 100%;
-        gap: 5px; /* Space between items */
-    }
-
-    .nav-item {
-        margin: 0; /* Remove horizontal margin */
-        width: 100%;
-        opacity: 0;
-        transform: translateX(15px);
-        transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-
-    .main-nav.active .nav-item {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    /* Staggered animation for menu items */
-    .main-nav.active .nav-item:nth-child(1) { transition-delay: 0.10s; }
-    .main-nav.active .nav-item:nth-child(2) { transition-delay: 0.15s; }
-    .main-nav.active .nav-item:nth-child(3) { transition-delay: 0.20s; }
-    .main-nav.active .nav-item:nth-child(4) { transition-delay: 0.25s; }
-    .main-nav.active .nav-item:nth-child(5) { transition-delay: 0.30s; }
-    .main-nav.active .nav-item:nth-child(6) { transition-delay: 0.35s; } /* If register button is shown */
-
-    .nav-link {
-        padding: 10px 10px; /* Adjusted mobile padding */
-        width: 100%;
-        text-align: left;
-        font-size: 15px; /* Adjusted mobile font size */
-        display: block;
-        border-bottom: 1px solid rgba(176, 196, 222, 0.1); /* Subtle separator */
-        color: #B0C4DE; /* Ensure color reset */
-    }
-
-    .nav-link:after {
-        display: none; /* Hide underline on mobile */
-    }
-
-    .nav-link:hover,
-    .nav-link.active {
-        background-color: rgba(0, 122, 255, 0.08); /* Very subtle hover/active */
-        color: #007AFF; /* Apple Blue */
-    }
-
-    /* Register button in mobile menu (if used) */
-    .nav-item .register-btn {
-        display: block; /* Make it full width */
-        width: 100%;
-        text-align: center;
-        margin-top: 20px; /* Space above */
-        padding: 12px;
-        font-size: 15px;
-        margin-left: 0; /* Reset margin */
-    }
-
-    .nav-item.mobile-only {
-         display: block; /* Show if needed */
-         width: 100%;
+/* Add padding to body to account for scrollbar width when nav is closed */
+@media (hover: hover) and (pointer: fine) {
+    body:not(.nav-open) {
+        padding-right: calc(100vw - 100%);
     }
 }
 
-@media (max-width: 480px) {
+/* Page loading progress indicator */
+.page-load-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: #007AFF;
+    width: 0;
+    transition: width 0.3s ease;
+    z-index: 9999;
+}
+
+.page-load-progress.finished {
+    opacity: 0;
+    transition: width 0.3s ease, opacity 0.3s ease;
+}
+
+/* ==================== */
+/* RESPONSIVE STYLES */
+/* ==================== */
+/* Desktop Styles (993px and above) */
+@media (min-width: 993px) {
+    .header {
+        height: 65px !important;
+        min-height: 65px !important;
+        max-height: 65px !important;
+        background-color: rgba(10, 10, 10, 0.10); /* Adjusted alpha from 0.30 */
+        backdrop-filter: blur(15px) saturate(1.0);
+        -webkit-backdrop-filter: blur(15px) saturate(1.0);
+    }
+
+    .header.scrolled {
+        height: 60px !important;
+        min-height: 60px !important;
+        max-height: 60px !important;
+        background-color: rgba(10, 10, 10, 0.55); /* Adjusted alpha from 0.70 */
+        backdrop-filter: blur(22px) saturate(1.3);
+        -webkit-backdrop-filter: blur(22px) saturate(1.3);
+    }
+
     .header-wrapper {
-        padding: 0 8px; /* Further reduced padding */
+        padding: 0 25px !important;
+        max-width: 1200px;
+    }
+
+    .main-nav {
+        position: static !important;
+        display: flex !important;
+        visibility: visible !important;
+        align-items: center;
+        justify-content: flex-end;
+        height: 100%;
+        margin-left: auto;
+        padding-left: 50px;
+        z-index: 1;
+        transform: none !important;
+        opacity: 1 !important;
+        width: auto;
+        bottom: auto; left: auto; right: auto; max-height: none;
+        background-color: transparent; backdrop-filter: none; -webkit-backdrop-filter: none;
+        box-shadow: none; border-radius: 0; border-top: none;
+        overflow: visible; padding: 0;
+        flex-direction: row;
+    }
+
+    .nav-list {
+        flex-direction: row;
+        align-items: center;
+        height: 100%;
+        gap: 4px;
+        width: auto;
+    }
+
+    .nav-item {
+        height: 100%;
+        width: auto;
+        border: none;
+    }
+
+    /* Links for desktop - Apple-like style */
+    .nav-link {
+        padding: 6px 12px !important; /* Adjust padding for background */
+        margin: 0 2px; /* Adjust margin */
+        border-radius: 6px; /* Rounded corners for background */
+        color: rgba(255, 255, 255, 0.85); /* Slightly brighter text */
+        height: auto;
+        text-align: center;
+        width: auto;
+        box-sizing: border-box;
+        border-bottom: none; /* Remove underline */
+        margin-bottom: 0; /* Remove margin adjustment for underline */
+        /* Smooth transition for background and color */
+        transition: color 0.2s ease, background-color 0.25s ease;
+        background-color: transparent; /* Ensure default is transparent */
+        font-weight: 500; /* Standard weight */
+    }
+
+    .nav-link:hover {
+        color: #FFFFFF; /* White text on hover */
+        background-color: rgba(255, 255, 255, 0.12) !important; /* Subtle light background */
+        border-bottom-color: transparent; /* Ensure no border appears */
+        transform: none; /* Ensure no transform */
+    }
+
+    .nav-link.active {
+        color: #FFFFFF; /* White text for active */
+        font-weight: 600; /* Slightly bolder for active */
+        background-color: rgba(255, 255, 255, 0.18) !important; /* Slightly stronger background for active */
+        box-shadow: none;
+        border-bottom-color: transparent; /* Ensure no border */
+    }
+
+    /* Optional: Define hover state specifically for active links if needed */
+    /* .nav-link.active:hover { */
+        /* Slightly different hover for active, e.g., slightly darker background */
+        /* background-color: rgba(255, 255, 255, 0.15) !important; */
+    /* } */
+
+    .logo-text {
+        font-size: 30px !important;
+        letter-spacing: -0.01em;
+    }
+
+    /* Explicitly hide mobile elements on desktop */
+    .header .header-wrapper .nav-toggle {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+    .nav-overlay {
+        display: none !important;
+    }
+    .mobile-nav-container {
+        display: none !important;
+    }
+    .main-nav::before { /* Hide mobile handle */
+        display: none;
+    }
+}
+
+/* Mobile Styles (up to 992px) */
+@media (max-width: 992px) {
+    .header {
+        padding: 5px 0;
+        height: 65px !important;
+        min-height: 65px !important;
+        max-height: 65px !important;
+    }
+
+    .header.scrolled {
+        height: 60px !important;
+        min-height: 60px !important;
+        max-height: 60px !important;
+    }
+
+    /* Hide desktop nav */
+    .main-nav {
+        display: none !important;
+    }
+
+    /* Show mobile nav container */
+     .mobile-nav-container {
+        display: block !important;
+    }
+
+    /* Make nav toggle visible */
+     .header .header-wrapper .nav-toggle {
+        display: flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+    }
+
+    /* Mobile Navigation List Styling */
+    .mobile-main-nav .nav-list {
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        gap: 0;
+    }
+
+    .mobile-main-nav .nav-item {
+        width: 100%;
+        margin: 0 !important;
+        opacity: 1;
+        transform: none;
+        transition: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        height: auto;
+    }
+
+    .mobile-main-nav .nav-item:first-child {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .mobile-main-nav .nav-item:last-child {
+        border-bottom: none;
+    }
+
+    .mobile-main-nav .nav-link {
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+        font-weight: 400;
+        font-size: 17px !important;
+        color: rgba(235, 235, 245, 0.9) !important;
+        text-align: center;
+        padding: 16px 20px !important;
+        width: 100%;
+        display: block;
+        border-radius: 0;
+        background: none !important;
+        border-bottom: none;
+        height: auto !important;
+        transition: background-color 0.15s ease, color 0.15s ease !important;
+        box-sizing: border-box;
+    }
+
+    .mobile-main-nav .nav-link:hover {
+        color: #FFFFFF !important;
+        background-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .mobile-main-nav .nav-link.active {
+        color: #FFFFFF !important;
+        font-weight: 600;
+        background-color: rgba(0, 122, 255, 0.2) !important;
+    }
+
+    /* Hide desktop-only elements */
+    .register-btn,
+    .logo-subtext {
+        display: none !important;
+    }
+
+    /* Mobile register button styling (if needed inside mobile nav) */
+    .nav-item .register-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin-top: 20px;
+        padding: 12px;
+        font-size: 15px;
+        margin-left: 0;
+    }
+
+    .nav-item.mobile-only {
+        display: block;
+        width: 100%;
     }
 
     .logo-text {
-        font-size: 22px !important; /* Adjusted mobile size */
+        font-size: 28px !important;
+    }
+}
+
+/* Specific mobile overrides for smallest screens */
+@media (max-width: 480px) {
+    .header-wrapper {
+        padding: 0 10px !important;
+    }
+
+    .logo-text {
+        font-size: 22px !important;
     }
 
     .logo-subtext {
-        font-size: 8px !important; /* Adjusted mobile size */
+        font-size: 22px !important; /* This seems large, maybe intended to be hidden? */
+        margin-left: 5px;
+    }
+
+    .nav-toggle {
+        right: 10px;
+        width: 20px;
+        height: 14px;
+        padding: 6px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .nav-toggle span:nth-child(2) {
+        margin: 3.5px 0; /* Adjust spacing */
     }
 }

@@ -70,7 +70,7 @@ main {
 .content-section h2 {
     text-align: center;
     margin-bottom: 25px; /* Adjust space */
-    color: #F5F5F7; /* Match theme heading color */
+    color: #FFFFFF; /* Ensure section headings are white */
     font-weight: 600;
     font-size: 1.8em; /* Match theme h2 size */
     position: relative;
@@ -94,7 +94,7 @@ main {
     margin: 0 auto;
     line-height: 1.6; /* Adjust line height */
     font-size: 1.0em;
-    color: #C5C5C7; /* Slightly adjusted text color */
+    color: #FFFFFF; /* Change about content text to white */
 }
 
 .about-content p {
@@ -109,7 +109,7 @@ form {
 label {
     display: block;
     margin-bottom: 6px; /* Adjust spacing */
-    color: #C5C5C7; /* Match about content color */
+    color: #FFFFFF; /* Change label text to white */
     font-size: 0.9em;
     font-weight: 500;
 }
@@ -122,7 +122,7 @@ textarea {
     margin-bottom: 18px; /* Increase spacing */
     background-color: rgba(255, 255, 255, 0.05); /* Lighter input background */
     border: 1px solid rgba(255, 255, 255, 0.1); /* Lighter border */
-    color: #F5F5F7; /* Brighter text */
+    color: #FFFFFF; /* Change input text to white */
     border-radius: 8px; /* More rounded */
     box-sizing: border-box;
     font-size: 1em; /* Ensure consistent font size */

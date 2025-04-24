@@ -1,16 +1,25 @@
-body {
+html, body { /* Apply to both html and body */
     background-color: #0A192F; /* Keep dark blue background */
-    color: #E0E0E0; /* Main text color */
-    /* Prioritize Apple system fonts, fallback to common sans-serif */
+    color: #FFFFFF; /* Change main text color to white */
+    /* Prioritize Apple system fonts, specifically SF Pro Text, then fallbacks */
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     line-height: 1.6; /* Slightly increased line height */
     overflow-x: hidden;
     letter-spacing: -0.01em; /* Slightly tighter spacing for SF font */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    /* Hide scrollbar for Firefox */
+    scrollbar-width: none;
+    /* Hide scrollbar for IE/Edge */
+    -ms-overflow-style: none;
 }
 
-/* Header theme styles moved to css/header.css */
+/* Hide scrollbar for Chrome, Safari and Opera */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar { /* Apply to both html and body */
+    display: none;
+}
 
 nav { /* Keep nav theme styles here or move to navigation.css */
     background-color: transparent; /* Remove nav background for minimalism */
@@ -35,7 +44,7 @@ nav a:hover {
 /* Footer theme styles moved to css/footer.css */
 
 h1, h2, h3 {
-    color: #F5F5F7; /* Slightly brighter white for headings */
+    color: #FFFFFF; /* Ensure headings are also pure white */
     font-weight: 600; /* Keep semi-bold */
     margin-top: 0;
     /* Use system font for headings too */

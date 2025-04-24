@@ -1,166 +1,230 @@
-// JavaScript specific to the new header component
+// JavaScript specific to the header component
 
-let headerInitialized = false; // Flag to prevent multiple initializations
-
-// Function to initialize header logic
-function initHeader() {
-    // Prevent re-initialization
-    if (headerInitialized) {
-        console.log("Header already initialized.");
-        return;
-    }
-    console.log("Attempting to initialize header...");
-
-    const navToggle = document.getElementById('nav-toggle');
-    const mainNav = document.getElementById('main-nav');
-    const overlay = document.querySelector('.nav-overlay'); // Select existing overlay
-    const header = document.querySelector('.header'); // Select the header element
-
-    // Check if all required elements are present in the DOM
-    if (!navToggle) {
-        console.error("Header Init Error: #nav-toggle not found.");
-        return; // Stop initialization if toggle is missing
-    }
-    if (!mainNav) {
-        console.error("Header Init Error: #main-nav not found.");
-        return; // Stop initialization if nav is missing
-    }
-    if (!overlay) {
-        console.error("Header Init Error: .nav-overlay not found in the HTML.");
-        return; // Stop initialization if overlay is missing
-    }
-    if (!header) {
-        console.error("Header Init Error: .header not found.");
-        return; // Stop initialization if header is missing
+// --- Navigation Initialization ---
+function initNavigation(navToggle, mobileNav, overlay) {
+    console.log("Initializing navigation listeners...");
+    if (!navToggle || !mobileNav || !overlay) {
+        console.error("initNavigation called with missing elements:", { navToggle, mobileNav, overlay });
+        return; // Stop if essential elements are missing
     }
 
-    console.log("Header elements found successfully (#nav-toggle, #main-nav, .nav-overlay, .header). Attaching listeners.");
-    headerInitialized = true; // Set flag
-
-    // --- Event Listeners ---
-
-    // Toggle mobile navigation
-    navToggle.addEventListener('click', function(event) {
-        event.stopPropagation(); // Prevent potential conflicts
-        console.log("Nav toggle clicked.");
-        if (mainNav.classList.contains('active')) {
-            closeNav();
-        } else {
-            openNav();
-        }
-    });
-
-    // Close nav when clicking overlay
-    overlay.addEventListener('click', function() {
-        console.log("Overlay clicked.");
-        if (mainNav.classList.contains('active')) {
-            closeNav();
-        }
-    });
-
-    // Close nav with ESC key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && mainNav.classList.contains('active')) {
-            closeNav();
-        }
-    });
-
-    // Close menu when clicking nav links (especially useful for single-page apps or hash links)
-    const navLinks = mainNav.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-             if (window.innerWidth <= 992) { // Only close on mobile viewports
-                 closeNav();
-             }
-        });
-    });
-
-    // Add scroll effect to header
-    let lastScrollY = window.scrollY;
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-        lastScrollY = window.scrollY; // Update last scroll position
-    }, { passive: true }); // Use passive listener for performance
-
-    // --- Helper Functions ---
-
+    // --- Navigation Helper Functions ---
     function openNav() {
-        console.log("Opening navigation");
-        if (!mainNav.classList.contains('active')) {
+        // Double check elements exist before modifying
+        if (!mobileNav || !navToggle || !overlay) {
+             console.error("openNav: One or more navigation elements missing!");
+             return;
+        }
+        if (!mobileNav.classList.contains('active')) {
             navToggle.classList.add('active');
-            // --- Force reflow before adding .active for smooth transform transition ---
-            mainNav.classList.remove('active'); // Ensure not active
-            // Force reflow
-            void mainNav.offsetWidth;
-            mainNav.classList.add('active');
-            // -----------------------------------------------------------
+            mobileNav.classList.add('active');
             overlay.classList.add('active');
-            document.body.classList.add('nav-open');
-            const scrollY = window.scrollY || window.pageYOffset;
-            document.body.style.overflow = 'hidden';
-            document.body.style.position = 'fixed';
-            document.body.style.top = `-${scrollY}px`;
-            document.body.style.width = '100%';
+            document.body.classList.add('nav-open'); // Prevent background scroll
         }
     }
 
     function closeNav() {
-        console.log("Closing navigation");
-        if (mainNav.classList.contains('active')) {
+         // Double check elements exist before modifying
+        if (!mobileNav || !navToggle || !overlay) {
+             console.error("closeNav: One or more navigation elements missing!");
+             return;
+        }
+        if (mobileNav.classList.contains('active')) {
             navToggle.classList.remove('active');
-            mainNav.classList.remove('active');
+            mobileNav.classList.remove('active');
             overlay.classList.remove('active');
-            
-            // Re-enable body scroll and restore position
-            const scrollY = parseInt(document.body.style.top || '0') * -1;
-            document.body.classList.remove('nav-open');
-            document.body.style.overflow = '';
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.width = '';
-            
-            // Restore scroll position
-            window.scrollTo(0, scrollY);
+            document.body.classList.remove('nav-open'); // Allow background scroll
         }
     }
 
-    // --- Active Link Highlighting ---
+    // Function to highlight the active navigation link in both navs
     function highlightActiveLink() {
         const currentPage = window.location.pathname;
-        const homeLink = mainNav.querySelector('.nav-link[href="/index.html"]'); // Specific home link
-
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            const linkPath = link.getAttribute('href');
-
-            if (linkPath === currentPage || (currentPage === '/' && link === homeLink)) {
-                 link.classList.add('active');
-            } else if (linkPath !== '/' && currentPage.startsWith(linkPath) && linkPath.length > 1) {
-                 if (currentPage === linkPath) {
-                    link.classList.add('active');
-                 }
+        const desktopNav = document.querySelector('.main-nav');
+        
+        let homeLink = null;
+        document.querySelectorAll('.nav-link').forEach(link => {
+            if (link.getAttribute('href') === 'index.html') {
+                homeLink = link;
             }
         });
+        
+        // Update links in mobile nav
+        if (mobileNav) {
+            const mobileNavLinks = mobileNav.querySelectorAll('.nav-link');
+            mobileNavLinks.forEach(link => {
+                link.classList.remove('active');
+                const linkPath = link.getAttribute('href');
+    
+                // Logic to determine active link based on current page path
+                if (linkPath === currentPage || (currentPage === '/' && link === homeLink)) {
+                    link.classList.add('active');
+                } else if (linkPath !== '/' && currentPage.startsWith(linkPath) && linkPath.length > 1) {
+                    if (currentPage === linkPath) {
+                        link.classList.add('active');
+                    }
+                }
+            });
+        }
+        
+        // Also update links in desktop nav if it exists
+        if (desktopNav) {
+            const desktopLinks = desktopNav.querySelectorAll('.nav-link');
+            desktopLinks.forEach(link => {
+                link.classList.remove('active');
+                const linkPath = link.getAttribute('href');
 
-         const isActiveLinkFound = Array.from(navLinks).some(link => link.classList.contains('active'));
-         if (!isActiveLinkFound && (currentPage === '/' || currentPage === '/index.html') && homeLink) {
-             homeLink.classList.add('active');
-         }
+                // Logic to determine active link based on current page path
+                if (linkPath === currentPage || (currentPage === '/' && link === homeLink)) {
+                     link.classList.add('active');
+                } else if (linkPath !== '/' && currentPage.startsWith(linkPath) && linkPath.length > 1) {
+                     if (currentPage === linkPath) {
+                        link.classList.add('active');
+                     }
+                }
+            });
+        }
     }
 
-    highlightActiveLink(); // Run on load
+    // --- Attach Event Listeners ---
+    // Toggle navigation menu
+    if (navToggle) {
+        // Remove any existing listener first to prevent duplicates if script runs multiple times
+        navToggle.removeEventListener('click', handleNavToggle); 
+        navToggle.addEventListener('click', handleNavToggle);
+        console.log("Nav toggle click listener attached.");
+    } else {
+        console.error("Cannot attach listener: navToggle element not found.");
+    }
 
-    console.log("Header script initialized successfully.");
+    // Handler function to keep listener logic clean
+    function handleNavToggle(event) {
+        event.stopPropagation(); // Prevent event bubbling
+        // Check mobileNav existence again inside the handler
+        if (!mobileNav) {
+            console.error("Mobile nav element not found inside click handler!");
+            return;
+        }
+        // Toggle navigation state
+        if (mobileNav.classList.contains('active')) {
+            closeNav();
+        } else {
+            openNav();
+        }
+    }
+
+    // Close menu when clicking the overlay
+    if (overlay) {
+         // Remove any existing listener first
+        overlay.removeEventListener('click', handleOverlayClick);
+        overlay.addEventListener('click', handleOverlayClick);
+        console.log("Overlay click listener attached.");
+    } else {
+         console.error("Cannot attach listener: overlay element not found.");
+    }
+    
+    function handleOverlayClick() {
+        closeNav();
+    }
+
+
+    // Initial setup
+    highlightActiveLink(); // Highlight on load
+    console.log("Navigation functionality initialized successfully.");
 }
 
-// --- Initialization ---
+
+// --- Initialization Trigger ---
 
 // Primary initialization trigger: Custom event for dynamically loaded components
-document.addEventListener('headerLoaded', function() {
-    console.log("Custom 'headerLoaded' event received.");
-    initHeader(); // Initialize header when the event is fired
-});
+document.addEventListener('headerLoaded', () => {
+    console.log("headerLoaded event received, initializing header script...");
+
+    const header = document.querySelector('.header');
+    const navToggle = document.querySelector('.nav-toggle');
+    const mobileNavContainer = document.querySelector('.mobile-nav-container');
+    const mobileNav = mobileNavContainer ? mobileNavContainer.querySelector('.mobile-main-nav') : null; 
+    const overlay = document.querySelector('.nav-overlay'); 
+
+    // Debug logging for element finding
+    console.log("DOM Elements found for init:");
+    console.log("- header:", !!header);
+    console.log("- navToggle:", !!navToggle);
+    console.log("- mobileNavContainer:", !!mobileNavContainer);
+    console.log("- mobileNav:", !!mobileNav); 
+    console.log("- overlay:", !!overlay);
+    
+    // Check computed styles if toggle exists
+    if (navToggle) {
+        const navToggleStyle = window.getComputedStyle(navToggle);
+        console.log("Nav toggle computed visibility:", navToggleStyle.visibility);
+        console.log("Nav toggle computed display:", navToggleStyle.display);
+        console.log("Nav toggle computed opacity:", navToggleStyle.opacity);
+    }
+
+    // --- Add Scroll Effect ---
+    const scrollThreshold = 50; // Pixels to scroll before adding class
+    let lastScrollY = window.scrollY; 
+
+    const handleHeaderScroll = () => {
+        if (window.scrollY > scrollThreshold) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+        lastScrollY = window.scrollY; 
+    };
+
+    // Attach scroll listener
+    window.addEventListener('scroll', handleHeaderScroll, { passive: true });
+    // Apply initial state in case the page loads already scrolled
+    handleHeaderScroll();
+    console.log("Header scroll listener attached.");
+
+
+    // --- Initialize Navigation ---
+    // Ensure all elements are correctly found before initializing
+    if (navToggle && mobileNav && overlay && header) {
+        console.log("All required navigation elements found, calling initNavigation.");
+        initNavigation(navToggle, mobileNav, overlay);
+    } else {
+        // Log which specific element is missing
+        console.error("Header initialization failed: One or more critical elements missing.");
+        if (!navToggle) console.error("- navToggle missing");
+        if (!mobileNav) console.error("- mobileNav missing (check inside .mobile-nav-container)");
+        if (!overlay) console.error("- overlay missing (should be in main HTML)");
+        if (!header) console.error("- header missing");
+        
+        // Fallback creation logic (if needed, though ideally elements should exist)
+        if (!navToggle) {
+            console.log("Creating fallback nav toggle (hamburger) element");
+            const fallbackToggle = document.createElement('button');
+            fallbackToggle.className = 'nav-toggle';
+            fallbackToggle.id = 'nav-toggle';
+            fallbackToggle.setAttribute('aria-label', 'Toggle navigation menu');
+            
+            // Create hamburger lines
+            for (let i = 0; i < 3; i++) {
+                const span = document.createElement('span');
+                fallbackToggle.appendChild(span);
+            }
+            
+            // Add to header
+            if (header) {
+                header.querySelector('.header-wrapper').appendChild(fallbackToggle);
+                // navToggle = fallbackToggle; // Re-assign if needed elsewhere
+                console.log("Fallback hamburger menu created and added to header");
+            }
+        }
+        
+        // Attempt to create overlay element if missing
+        if (!overlay) {
+            console.log("Creating fallback overlay element");
+            const fallbackOverlay = document.createElement('div');
+            fallbackOverlay.className = 'nav-overlay';
+            fallbackOverlay.id = 'nav-overlay';
+            document.body.appendChild(fallbackOverlay);
+        }
+    }
+
+}, { once: true }); // Ensure this listener runs only once

@@ -12,33 +12,27 @@
     overflow: hidden;
     box-sizing: border-box;
 }
-
 .footer p {
     margin: 0 0 10px 0;
 }
-
 .footer ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
-
 .footer ul li {
     display: inline;
     margin: 0 10px;
 }
-
 .footer ul li a {
     color: #8892B0;
     text-decoration: none;
     transition: color 0.3s ease;
 }
-
 .footer ul li a:hover {
     color: #007AFF;
     text-decoration: none;
 }
-
 .circular-text-container {
     position: relative;
     width: 150px;
@@ -46,7 +40,6 @@
     margin-right: 40px;
     flex-shrink: 0;
 }
-
 .circular-text-container svg {
     display: block;
     width: 100%;
@@ -54,12 +47,10 @@
     animation: rotate 20s linear infinite;
     overflow: visible;
 }
-
 @keyframes rotate {
     from { transform: rotate(0deg);}
     to { transform: rotate(360deg);}
 }
-
 .center-image {
     position: absolute;
     top: 50%;
@@ -69,7 +60,6 @@
     height: 45px;
     z-index: 1;
 }
-
 .center-image::before {
     content: '';
     position: absolute;
@@ -82,7 +72,6 @@
     border-radius: 50%;
     z-index: -1;
 }
-
 .center-image img {
     display: block;
     width: 100%;
@@ -90,29 +79,24 @@
     border-radius: 50%;
     object-fit: cover;
 }
-
 .footer-content {
     text-align: right;
 }
-
 .circular-text-container svg text {
     fill: #8892B0;
     font-family: 'Neue Montreal', sans-serif;
     font-size: 8px;
 }
-
 .footer-logo-group {
     display: flex;
     align-items: center;
 }
-
 .footer-text-block {
     margin-left: -30px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-
 .circular-text-right {
     display: block;
     margin-left: 0;
@@ -128,7 +112,6 @@
     line-height: 1;
     text-align: center;
 }
-
 .circular-text-sub {
     display: block;
     margin-left: 0;
@@ -143,7 +126,6 @@
     position: relative;
     text-align: center;
 }
-
 @media (max-width: 900px) {
     .footer {
         flex-direction: column;
